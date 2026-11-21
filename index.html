@@ -4,51 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>بازرگانی غلامی | GHOLAMI TRADE</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Tahoma,Arial;background:#f3f6fb;color:#222}
-header{background:#fff;color:#12395d;padding:14px 12px;text-align:center;border-bottom:3px solid #4b85c4}
-header .brand-logo{width:108px;height:96px;object-fit:contain;display:block;margin:0 auto 6px}
-header h1{margin:5px 0;font-size:24px}
-header p{margin:5px 0;color:#42617f;font-weight:bold;letter-spacing:.4px}
-nav{display:flex;gap:7px;justify-content:center;flex-wrap:wrap;padding:12px;background:#fff}
-button{border:0;border-radius:7px;padding:10px 13px;background:#1769aa;color:#fff;font-family:inherit;cursor:pointer;margin:2px}
-button:hover{opacity:.88}
-input,select,textarea{width:100%;padding:10px;margin:6px 0 12px;border:1px solid #ccc;border-radius:7px;font-family:inherit}
-main{max-width:1100px;margin:auto;padding:14px}
-.section{display:none}
-.section.active{display:block}
-.card{background:#fff;border-radius:10px;padding:13px;margin:10px 0;box-shadow:0 2px 8px #0001}
+body{margin:0;background:#f3f6fb;color:#202833;font-family:Tahoma,Arial}
+header{background:#fff;text-align:center;padding:18px;border-bottom:4px solid #2769a8;color:#163e62}
+header h1{margin:5px;font-size:24px}
+header p{margin:5px;font-weight:bold}
+nav{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;background:#fff;padding:10px}
+button{border:0;border-radius:7px;background:#1769aa;color:#fff;padding:10px 13px;font-family:inherit;cursor:pointer;margin:3px}
+button:hover{opacity:.86}
+.danger{background:#bd3030}
+.green{background:#17834a}
+.gray{background:#666}
+.orange{background:#b66b00}
+input,select,textarea{width:100%;padding:10px;border:1px solid #ccd2da;border-radius:7px;font-family:inherit;margin:6px 0 12px}
+main{max-width:1100px;margin:auto;padding:12px}
+.page{display:none}
+.page.active{display:block}
+.card{background:white;border-radius:10px;padding:13px;margin:10px 0;box-shadow:0 2px 7px #0001}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-.product img{width:100%;height:155px;object-fit:contain;background:#f5f5f5;border-radius:8px}
-.price{font-weight:bold;color:#1769aa}
-.old-price{text-decoration:line-through;color:#888;font-size:13px}
-.discount{background:#c62828;color:#fff;padding:4px 7px;border-radius:5px;font-size:12px}
-.row{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.product img{width:100%;height:175px;object-fit:contain;background:#f5f6f8;border-radius:8px}
+.price{color:#1769aa;font-weight:bold}
+.old{color:#888;text-decoration:line-through;font-size:13px}
+.tag{background:#c32d2d;color:#fff;border-radius:5px;padding:3px 6px;font-size:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
 .row>*{flex:1}
 .small{font-size:13px;color:#666}
-.danger{background:#c62828}
-.green{background:#16834a}
-.gray{background:#666}
-.orange{background:#bd7000}
 .hidden{display:none!important}
-.stars{color:#e99b00;font-size:20px}
-.review{border-bottom:1px solid #eee;padding:10px 0}
-.status{background:#eee;padding:5px 8px;border-radius:5px;font-size:12px}
-.stat{font-size:23px;font-weight:bold;color:#1769aa}
-.successText{color:#16834a}
-.errorText{color:#c62828}
-hr{border:0;border-top:1px solid #eee;margin:14px 0}
+.status{background:#eee;padding:4px 7px;border-radius:5px;font-size:12px}
+hr{border:0;border-top:1px solid #eee;margin:12px 0}
 @media print{
-header,nav,button{display:none!important}
+nav,header,button{display:none!important}
 body{background:#fff}
-.section{display:none!important}
 #invoice{display:block!important}
-.card{box-shadow:none}
+.page{display:none!important}
 }
 </style>
 </head>
+
 <body>
+
 <header>
 <h1>بازرگانی غلامی</h1>
 <p>GHOLAMI TRADE</p>
@@ -64,588 +60,746 @@ body{background:#fff}
 </nav>
 
 <main>
-<section id="shop" class="section active">
-<h2>محصولات بازرگانی غلامی</h2>
-<input id="search" placeholder="جستجوی محصول...">
+
+<section id="shop" class="page active">
+<h2>فروشگاه</h2>
+<input id="search" placeholder="جستجوی محصولات...">
+
 <div class="row">
-<select id="categoryFilter">
-<option value="">همه دسته‌بندی‌ها</option>
+<select id="category">
+<option value="">همه دسته‌ها</option>
 </select>
-<select id="sortFilter">
+
+<select id="sort">
 <option value="">مرتب‌سازی</option>
 <option value="cheap">ارزان‌ترین</option>
 <option value="expensive">گران‌ترین</option>
-<option value="discount">بیشترین تخفیف</option>
-<option value="rating">بالاترین امتیاز</option>
 </select>
 </div>
+
 <div id="products" class="grid"></div>
 </section>
 
-<section id="details" class="section">
-<button data-page="shop">بازگشت</button>
-<div id="detailsContent"></div>
+<section id="details" class="page">
+<button data-page="shop">بازگشت به فروشگاه</button>
+<div id="detailBox"></div>
 </section>
 
-<section id="cart" class="section">
+<section id="cart" class="page">
 <h2>سبد خرید</h2>
-<div id="cartItems"></div>
-<div class="card">
-<h3>کد تخفیف</h3>
-<input id="couponInput" placeholder="مثلاً SALE20">
-<button id="applyCoupon">اعمال کد تخفیف</button>
-<button id="removeCoupon" class="gray">حذف کد</button>
-<p id="couponMessage" class="small"></p>
-</div>
-<div id="cartTotal" class="card"></div>
+<div id="cartBox"></div>
+<div id="cartSum" class="card"></div>
+
 <div class="card">
 <h3>اطلاعات خریدار</h3>
-<input id="buyerName" placeholder="نام و نام خانوادگی">
-<input id="buyerPhone" placeholder="شماره تماس">
-<textarea id="buyerAddress" placeholder="آدرس کامل"></textarea>
-<button id="checkoutBtn" class="green">ثبت سفارش</button>
+<input id="customer" placeholder="نام و نام خانوادگی">
+<input id="phone" placeholder="شماره تماس">
+<textarea id="address" placeholder="آدرس کامل"></textarea>
+<button id="orderBtn" class="green">ثبت سفارش</button>
 </div>
 </section>
 
-<section id="favorites" class="section">
+<section id="favorites" class="page">
 <h2>علاقه‌مندی‌ها</h2>
-<div id="favoriteItems" class="grid"></div>
+<div id="favBox" class="grid"></div>
 </section>
 
-<section id="tracking" class="section">
+<section id="tracking" class="page">
 <h2>پیگیری سفارش</h2>
 <input id="trackCode" placeholder="کد سفارش">
 <button id="trackBtn">پیگیری</button>
 <div id="trackResult"></div>
 </section>
 
-<section id="invoice" class="section">
-<h2>فاکتور سفارش</h2>
-<div id="invoiceContent"></div>
-<button id="printInvoice">چاپ فاکتور</button>
+<section id="invoice" class="page">
+<h2>فاکتور</h2>
+<div id="invoiceBox"></div>
+<button onclick="window.print()">چاپ فاکتور</button>
 <button data-page="shop">بازگشت به فروشگاه</button>
 </section>
 
-<section id="admin" class="section">
-<div id="adminLogin" class="card">
+<section id="admin" class="page">
+
+<div id="loginBox" class="card">
 <h2>ورود مدیر</h2>
-<input id="adminPassword" type="password" placeholder="رمز مدیریت">
-<button id="loginBtn">ورود</button>
+<input id="password" type="password" placeholder="رمز مدیریت">
+<button id="login">ورود</button>
 </div>
-<div id="adminPanel" class="hidden">
+
+<div id="panel" class="hidden">
+
 <div class="card">
-<h2>آمار فروشگاه</h2>
-<div id="stats" class="grid"></div>
-<h3>پرفروش‌ترین محصولات</h3>
-<div id="topProducts"></div>
-<h3>گزارش فروش</h3>
-<div id="salesReport"></div>
-</div><div class="card">
-<h2>افزودن یا ویرایش محصول</h2>
-<input id="productId" type="hidden">
+<h2>ثبت / ویرایش محصول</h2>
+
+<input id="editId" type="hidden">
+
 <label>نام محصول</label>
-<input id="productName" placeholder="نام محصول">
-<label>قیمت اصلی (تومان)</label>
-<input id="productPrice" type="number" min="0">
+<input id="name" placeholder="نام محصول">
+
+<label>قیمت (تومان)</label>
+<input id="price" type="number" min="0">
+
 <label>درصد تخفیف</label>
-<input id="productDiscount" type="number" min="0" max="99" value="0">
+<input id="discount" type="number" min="0" max="99" value="0">
+
 <label>موجودی</label>
-<input id="productStock" type="number" min="0">
+<input id="stock" type="number" min="0">
+
 <label>دسته‌بندی</label>
-<input id="productCategory" placeholder="مثلاً پوشاک">
+<input id="cat" placeholder="مثلاً لوازم خانگی">
+
 <label>توضیحات</label>
-<textarea id="productDescription"></textarea>
+<textarea id="desc"></textarea>
 
-<label>تصویر محصول (از گالری گوشی انتخاب کن)</label>
-<input id="productImage" type="file" accept="image/*">
+<label>عکس محصول از گالری گوشی</label>
+<input id="photo" type="file" accept="image/*">
 
-<div id="imagePreviewWrap" class="card hidden">
-<p class="small">پیش‌نمایش تصویر</p>
-<img id="imagePreview" alt="پیش‌نمایش عکس محصول" style="display:block;max-width:100%;max-height:220px;object-fit:contain;margin:auto">
-<button type="button" id="clearImage" class="gray">حذف تصویر انتخاب‌شده</button>
+<div id="previewWrap" class="hidden">
+<img id="preview" style="display:block;max-width:100%;max-height:220px;margin:10px auto;object-fit:contain" alt="پیش‌نمایش تصویر">
+<button id="clearPhoto" class="gray">پاک‌کردن تصویر انتخابی</button>
 </div>
 
 <button id="saveProduct" class="green">ذخیره محصول</button>
-<button id="cancelEdit" class="gray">لغو ویرایش</button>
+<button id="cancelEdit" class="gray">لغو و پاک‌کردن فرم</button>
 </div>
 
 <div class="card">
-<h2>مدیریت کدهای تخفیف</h2>
-<input id="couponCode" placeholder="نام کد، مثلاً SALE20">
-<input id="couponPercent" type="number" min="1" max="90" placeholder="درصد تخفیف">
-<input id="couponLimit" type="number" min="1" placeholder="تعداد دفعات مجاز">
-<label>تاریخ انقضا</label>
-<input id="couponExpiry" type="date">
-<button id="saveCoupon" class="green">ساخت کد تخفیف</button>
-<div id="adminCoupons"></div>
+<h2>محصولات ثبت‌شده</h2>
+<div id="manageProducts"></div>
 </div>
 
 <div class="card">
-<h2>مدیریت محصولات</h2>
-<div id="adminProducts"></div>
+<h2>سفارش‌ها</h2>
+<div id="manageOrders"></div>
 </div>
 
 <div class="card">
-<h2>مدیریت نظرات مشتریان</h2>
-<div id="adminReviews"></div>
+<h2>پشتیبان</h2>
+<button id="export">دانلود پشتیبان</button>
+<input type="file" id="backupFile" accept=".json">
+<button id="import">بازیابی پشتیبان</button>
 </div>
 
-<div class="card">
-<h2>مدیریت سفارش‌ها</h2>
-<div id="adminOrders"></div>
-</div>
+<button id="logout" class="danger">خروج از مدیریت</button>
 
-<div class="card">
-<h2>پشتیبان‌گیری</h2>
-<button id="exportBtn">دریافت نسخه پشتیبان</button>
-<input id="importFile" type="file" accept=".json">
-<button id="importBtn">بازیابی نسخه پشتیبان</button>
-</div>
-
-<button id="logoutBtn" class="danger">خروج از مدیریت</button>
 </div>
 </section>
 </main>
 
 <script>
-"use strict";
+'use strict';
+
 const $=id=>document.getElementById(id);
 
-function read(k,d){
-try{
-const x=JSON.parse(localStorage.getItem(k));
-return x===null?d:x;
-}catch(e){return d}
+function load(key,def){
+ try{
+  const v=JSON.parse(localStorage.getItem(key));
+  return v===null?def:v;
+ }catch{
+  return def;
+ }
 }
 
-function save(k,v){
-localStorage.setItem(k,JSON.stringify(v));
+let products=load('gt_products',[]);
+let cart=load('gt_cart',[]);
+let orders=load('gt_orders',[]);
+let favorites=load('gt_favs',[]);
+let admin=false;
+let chosenImage=null;
+
+function saveAll(){
+ localStorage.setItem('gt_products',JSON.stringify(products));
+ localStorage.setItem('gt_cart',JSON.stringify(cart));
+ localStorage.setItem('gt_orders',JSON.stringify(orders));
+ localStorage.setItem('gt_favs',JSON.stringify(favorites));
 }
 
-let products=read("myProducts",[]);
-let cart=read("myCart",[]);
-let orders=read("myOrders",[]);
-let categories=read("myCategories",[]);
-let favorites=read("myFavorites",[]);
-let reviews=read("myReviews",[]);
-let coupons=read("myCoupons",[]);
-let activeCoupon=null;
-let adminLogged=false;
-
-function persist(){
-save("myProducts",products);
-save("myCart",cart);
-save("myOrders",orders);
-save("myCategories",categories);
-save("myFavorites",favorites);
-save("myReviews",reviews);
-save("myCoupons",coupons);
+function safe(s){
+ return String(s??'').replace(/[&<>"']/g,ch=>({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
+ }[ch]));
 }
 
-function esc(v){
-return String(v??"").replace(/[&<>"']/g,c=>({
-"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c])));
+function toman(n){
+ return Number(n||0).toLocaleString('fa-IR')+' تومان';
 }
 
-function money(v){
-return Number(v||0).toLocaleString("fa-IR")+" تومان";
+function price(p){
+ return Math.round(Number(p.price||0)*(100-(Number(p.discount)||0))/100);
 }
 
-function discountedPrice(p){
-let n=Math.max(0,Number(p.price)||0);
-let d=Math.min(99,Math.max(0,Number(p.discount)||0));
-return Math.round(n*(100-d)/100);
+function show(page){
+ document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+ $(page)?.classList.add('active');
+
+ if(page==='shop')drawProducts();
+ if(page==='cart')drawCart();
+ if(page==='favorites')drawFavs();
+ if(page==='admin'&&admin)drawAdmin();
 }
 
-function discountHTML(p){
-let d=Math.min(99,Math.max(0,Number(p.discount)||0));
-return d?
-`<div class="old-price">${money(p.price)}</div>
-<div class="price">${money(discountedPrice(p))}</div>
-<span class="discount">${d}٪ تخفیف</span>`
-:`<span class="price">${money(p.price)}</span>`;
-}
+document.addEventListener('click',e=>{
+ let nav=e.target.closest('[data-page]');
+ if(nav){
+  show(nav.dataset.page);
+  return;
+ }
 
-products=products.map(p=>({...p,discount:Math.min(99,Math.max(0,Number(p.discount)||0))}));
-reviews=reviews.map(r=>({...r,status:r.status||"approved"}));
-persist();
+ let b=e.target.closest('[data-do]');
+ if(!b)return;
 
-function getReviews(id){
-return reviews.filter(r=>r.productId===id&&r.status==="approved");
-}
+ const id=b.dataset.id;
 
-function averageRating(id){
-let a=getReviews(id);
-return a.length?a.reduce((s,r)=>s+Number(r.rating||0),0)/a.length:0;
-}
-
-function stars(v){
-let n=Math.max(0,Math.min(5,Math.round(Number(v)||0)));
-return "★".repeat(n)+"☆".repeat(5-n);
-}
-
-function ratingHTML(id){
-let a=getReviews(id);
-return a.length?
-`<div class="stars">${stars(averageRating(id))}</div>
-<span class="small">${averageRating(id).toFixed(1)} از ۵ - ${a.length} نظر</span>`:
-`<span class="small">هنوز امتیازی ثبت نشده</span>`;
-}
-
-function updateCategories(){
-categories=[...new Set([...categories,...products.map(p=>p.category).filter(Boolean)])];
-$("categoryFilter").innerHTML=
-'<option value="">همه دسته‌بندی‌ها</option>'+
-categories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
-save("myCategories",categories);
-}
-
-function showPage(page){
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-$(page)?.classList.add("active");
-if(page==="shop")renderProducts();
-if(page==="cart")renderCart();
-if(page==="favorites")renderFavorites();
-if(page==="admin"&&adminLogged)renderAdmin();
-}document.addEventListener("click",e=>{
-let p=e.target.closest("[data-page]");
-if(p){showPage(p.dataset.page);return}
-let a=e.target.closest("[data-action]");
-if(!a)return;
-let id=a.dataset.id;
-switch(a.dataset.action){
-case"add":addToCart(id);break;
-case"favorite":toggleFavorite(id);break;
-case"details":showDetails(id);break;
-case"increase":changeCart(id,1);break;
-case"decrease":changeCart(id,-1);break;
-case"remove":removeCart(id);break;
-case"edit":editProduct(id);break;
-case"delete":deleteProduct(id);break;
-case"invoice":showInvoice(id);break;
-case"status":changeStatus(id,a.dataset.status);break;
-case"deleteOrder":deleteOrder(id);break;
-case"approveReview":reviewStatus(id,"approved");break;
-case"rejectReview":reviewStatus(id,"rejected");break;
-case"deleteReview":deleteReview(id);break;
-case"deleteCoupon":deleteCoupon(id);break;
-}
+ switch(b.dataset.do){
+  case'add':addCart(id);break;
+  case'fav':toggleFav(id);break;
+  case'detail':details(id);break;
+  case'plus':qty(id,1);break;
+  case'minus':qty(id,-1);break;
+  case'remove':
+   cart=cart.filter(x=>x.id!==id);
+   saveAll();
+   drawCart();
+   break;
+  case'edit':editProduct(id);break;
+  case'delete':deleteProduct(id);break;
+  case'invoice':invoice(id);break;
+  case'status':changeStatus(id,b.dataset.status);break;
+  case'orderdel':deleteOrder(id);break;
+ }
 });
 
-function productCard(p){
-return `<div class="card product">
-<img src="${esc(p.image||"")}" alt="${esc(p.name)}">
-<h3>${esc(p.name)}</h3>
-${discountHTML(p)}
-${ratingHTML(p.id)}
-<p class="small">دسته: ${esc(p.category||"عمومی")} | موجودی: ${Number(p.stock)||0}</p>
-<div class="row">
-<button data-action="details" data-id="${esc(p.id)}">جزئیات</button>
-<button data-action="add" data-id="${esc(p.id)}">افزودن به سبد</button>
-</div>
-<button class="gray" data-action="favorite" data-id="${esc(p.id)}">
-${favorites.includes(p.id)?"حذف از علاقه‌مندی":"علاقه‌مندی"}
-</button>
-</div>`;
+function drawProducts(){
+ let list=products.slice();
+ let q=$('search').value.trim().toLowerCase();
+ let c=$('category').value;
+ let sort=$('sort').value;
+
+ list=list.filter(p=>
+  (!q||(p.name+' '+(p.category||'')+' '+(p.description||'')).toLowerCase().includes(q))
+  &&(!c||p.category===c)
+ );
+
+ if(sort==='cheap')list.sort((a,b)=>price(a)-price(b));
+ if(sort==='expensive')list.sort((a,b)=>price(b)-price(a));
+
+ let cats=[...new Set(products.map(p=>p.category).filter(Boolean))];
+
+ $('category').innerHTML='<option value="">همه دسته‌ها</option>'+
+ cats.map(x=>`<option>${safe(x)}</option>`).join('');
+
+ $('category').value=c;
+
+ $('products').innerHTML=list.map(p=>`
+ <div class="card product">
+ ${p.image
+  ?`<img src="${p.image}" alt="${safe(p.name)}">`
+  :`<div style="height:175px;background:#f5f5f5;border-radius:8px;display:grid;place-items:center">بدون تصویر</div>`}
+
+ <h3>${safe(p.name)}</h3>
+ <p>${safe(p.category||'')}</p>
+
+ ${p.discount
+  ?`<span class="old">${toman(p.price)}</span>
+    <span class="tag">${p.discount}٪ تخفیف</span>`
+  :''}
+
+ <p class="price">${toman(price(p))}</p>
+ <p>موجودی: ${Number(p.stock).toLocaleString('fa-IR')}</p>
+
+ <button data-do="detail" data-id="${safe(p.id)}">جزئیات</button>
+ <button data-do="add" data-id="${safe(p.id)}">افزودن به سبد</button>
+ <button data-do="fav" data-id="${safe(p.id)}">${favorites.includes(p.id)?'★':'☆'} پسندیدن</button>
+ </div>
+ `).join('')||'<p class="card">محصولی یافت نشد.</p>';
 }
 
-function renderProducts(){
-updateCategories();
-let a=[...products];
-let s=$("search").value.trim().toLowerCase();
-let c=$("categoryFilter").value;
-let o=$("sortFilter").value;
-if(s)a=a.filter(p=>String(p.name).toLowerCase().includes(s));
-if(c)a=a.filter(p=>p.category===c);
-if(o==="cheap")a.sort((x,y)=>discountedPrice(x)-discountedPrice(y));
-if(o==="expensive")a.sort((x,y)=>discountedPrice(y)-discountedPrice(x));
-if(o==="discount")a.sort((x,y)=>(y.discount||0)-(x.discount||0));
-if(o==="rating")a.sort((x,y)=>averageRating(y.id)-averageRating(x.id));
-$("products").innerHTML=a.length?a.map(productCard).join(""):"محصولی پیدا نشد.";
+$('search').addEventListener('input',drawProducts);
+$('category').addEventListener('change',drawProducts);
+$('sort').addEventListener('change',drawProducts);
+
+function addCart(id){
+ let p=products.find(x=>x.id===id);
+ if(!p)return;
+
+ if(p.stock<=0){
+  alert('این محصول موجود نیست');
+  return;
+ }
+
+ let i=cart.find(x=>x.id===id);
+
+ if(i){
+  if(i.qty>=p.stock){
+   alert('بیشتر از موجودی نمی‌توانید انتخاب کنید');
+   return;
+  }
+  i.qty++;
+ }else{
+  cart.push({id,qty:1});
+ }
+
+ saveAll();
+ alert('به سبد خرید اضافه شد');
 }
 
-$("search").addEventListener("input",renderProducts);
-$("categoryFilter").addEventListener("change",renderProducts);
-$("sortFilter").addEventListener("change",renderProducts);
+function qty(id,d){
+ let item=cart.find(x=>x.id===id);
+ let p=products.find(x=>x.id===id);
+ if(!item)return;
 
-function addToCart(id){
-let p=products.find(x=>x.id===id);
-if(!p)return;
-let i=cart.find(x=>x.id===id);
-if((i?.quantity||0)>=(Number(p.stock)||0)){
-alert("موجودی کافی نیست");return;
-}
-if(i)i.quantity++;
-else cart.push({id,quantity:1});
-persist();renderCart();
-alert("به سبد خرید اضافه شد");
-}
+ item.qty+=d;
 
-function changeCart(id,n){
-let i=cart.find(x=>x.id===id),p=products.find(x=>x.id===id);
-if(!i||!p)return;
-let q=i.quantity+n;
-if(q<1){removeCart(id);return}
-if(q>Number(p.stock)){alert("موجودی کافی نیست");return}
-i.quantity=q;persist();renderCart();
+ if(item.qty<=0){
+  cart=cart.filter(x=>x.id!==id);
+ }
+
+ if(p&&item.qty>p.stock){
+  item.qty=p.stock;
+  alert('موجودی محدود است');
+ }
+
+ saveAll();
+ drawCart();
 }
 
-function removeCart(id){
-cart=cart.filter(x=>x.id!==id);
-persist();renderCart();
+function drawCart(){
+ let html=cart.map(i=>{
+  let p=products.find(x=>x.id===i.id);
+  if(!p)return '';
+
+  return `
+  <div class="card">
+  <b>${safe(p.name)}</b>
+  <p>${toman(price(p))} | تعداد: ${i.qty}</p>
+  <button data-do="minus" data-id="${i.id}">−</button>
+  <button data-do="plus" data-id="${i.id}">+</button>
+  <button class="danger" data-do="remove" data-id="${i.id}">حذف</button>
+  </div>`;
+ }).join('');
+
+ $('cartBox').innerHTML=html||'<p class="card">سبد خرید خالی است.</p>';
+
+ let sum=cart.reduce((s,i)=>{
+  let p=products.find(x=>x.id===i.id);
+  return s+(p?price(p)*i.qty:0);
+ },0);
+
+ $('cartSum').innerHTML=`<h3>جمع کل: ${toman(sum)}</h3>`;
 }
 
-function validCoupon(code){
-let c=coupons.find(x=>String(x.code).toUpperCase()===code);
-if(!c)return{ok:false,message:"کد تخفیف پیدا نشد."};
-if(c.expiry&&c.expiry<new Date().toISOString().slice(0,10))
-return{ok:false,message:"اعتبار کد تمام شده است."};
-if(Number(c.used)>=Number(c.limit))
-return{ok:false,message:"ظرفیت استفاده تمام شده است."};
-return{ok:true,coupon:c};
+function toggleFav(id){
+ favorites.includes(id)
+  ?favorites=favorites.filter(x=>x!==id)
+  :favorites.push(id);
+
+ saveAll();
+ drawProducts();
+ drawFavs();
 }
 
-function subtotal(){
-return cart.reduce((s,i)=>{
-let p=products.find(x=>x.id===i.id);
-return s+(p?discountedPrice(p)*i.quantity:0);
-},0);
+function drawFavs(){
+ $('favBox').innerHTML=favorites.map(id=>{
+  let p=products.find(x=>x.id===id);
+
+  return p?`
+  <div class="card">
+  <b>${safe(p.name)}</b>
+  <p class="price">${toman(price(p))}</p>
+  <button data-do="add" data-id="${id}">افزودن به سبد</button>
+  <button data-do="fav" data-id="${id}">حذف از علاقه‌مندی</button>
+  </div>`:'';
+ }).join('')||'<p>موردی ذخیره نشده است.</p>';
 }
 
-function couponDiscount(n){
-return activeCoupon?Math.round(n*Number(activeCoupon.percent)/100):0;
+function details(id){
+ let p=products.find(x=>x.id===id);
+ if(!p)return;
+
+ $('detailBox').innerHTML=`
+ <div class="card">
+ ${p.image?`<img src="${p.image}" alt="${safe(p.name)}" style="max-width:100%;max-height:300px;display:block;margin:auto">`:''}
+ <h2>${safe(p.name)}</h2>
+ <p>${safe(p.category||'')}</p>
+ <p>${safe(p.description||'')}</p>
+ <p class="price">${toman(price(p))}</p>
+ <p>موجودی: ${p.stock}</p>
+ <button data-do="add" data-id="${id}">افزودن به سبد</button>
+ <button data-do="fav" data-id="${id}">افزودن به علاقه‌مندی</button>
+ </div>`;
+
+ show('details');
 }
 
-function renderCart(){
-let sum=0;
-$("cartItems").innerHTML=cart.length?
-cart.map(i=>{
-let p=products.find(x=>x.id===i.id);
-if(!p)return"";
-let v=discountedPrice(p)*i.quantity;
-sum+=v;
-return `<div class="card">
-<b>${esc(p.name)}</b>
-<p>${discountHTML(p)}</p>
-<p>تعداد: ${i.quantity} | جمع: ${money(v)}</p>
-<button data-action="increase" data-id="${esc(p.id)}">+</button>
-<button data-action="decrease" data-id="${esc(p.id)}">-</button>
-<button class="danger" data-action="remove" data-id="${esc(p.id)}">حذف</button>
-</div>`;
-}).join(""):"سبد خرید خالی است.";
-let d=couponDiscount(sum);
-$("cartTotal").innerHTML=`<p>جمع محصولات: ${money(sum)}</p>
-<p>تخفیف کد: ${money(d)}</p>
-<h3>مبلغ قابل پرداخت: ${money(sum-d)}</h3>`;
-}
+$('orderBtn').addEventListener('click',()=>{
+ if(!cart.length){
+  alert('سبد خرید خالی است');
+  return;
+ }
 
-$("applyCoupon").addEventListener("click",()=>{
-let code=$("couponInput").value.trim().toUpperCase(),r=validCoupon(code);
-if(!code){$("couponMessage").textContent="کد را وارد کنید.";return}
-if(!r.ok){
-activeCoupon=null;
-$("couponMessage").textContent=r.message;
-$("couponMessage").className="small errorText";
-}else{
-activeCoupon=r.coupon;
-$("couponMessage").textContent="کد با موفقیت اعمال شد.";
-$("couponMessage").className="small successText";
-}
-renderCart();
+ let name=$('customer').value.trim();
+ let phone=$('phone').value.trim();
+ let address=$('address').value.trim();
+
+ if(!name||!phone||!address){
+  alert('نام، شماره تماس و آدرس را وارد کنید');
+  return;
+ }
+
+ for(let i of cart){
+  let p=products.find(x=>x.id===i.id);
+  if(!p||p.stock<i.qty){
+   alert('موجودی یکی از محصولات کافی نیست');
+   return;
+  }
+ }
+
+ let items=cart.map(i=>{
+  let p=products.find(x=>x.id===i.id);
+  return{name:p.name,unit:price(p),qty:i.qty};
+ });
+
+ let total=items.reduce((s,i)=>s+i.unit*i.qty,0);
+ let id='GT-'+Date.now().toString().slice(-8);
+
+ let o={
+  id,name,phone,address,items,total,
+  status:'در انتظار ارسال',
+  date:new Date().toLocaleString('fa-IR'),
+  timestamp:Date.now()
+ };
+
+ orders.push(o);
+
+ cart.forEach(i=>{
+  let p=products.find(x=>x.id===i.id);
+  if(p)p.stock-=i.qty;
+ });
+
+ cart=[];
+ saveAll();
+
+ $('customer').value='';
+ $('phone').value='';
+ $('address').value='';
+
+ invoice(id);
 });
 
-$("removeCoupon").addEventListener("click",()=>{
-activeCoupon=null;
-$("couponInput").value="";
-$("couponMessage").textContent="کد حذف شد.";
-renderCart();
+function invoice(id){
+ let o=orders.find(x=>x.id===id);
+ if(!o)return;
+
+ $('invoiceBox').innerHTML=`
+ <div class="card">
+ <h3>بازرگانی غلامی | GHOLAMI TRADE</h3>
+ <p>شماره سفارش: <b>${safe(o.id)}</b></p>
+ <p>تاریخ: ${safe(o.date)}</p>
+ <p>نام خریدار: ${safe(o.name)}</p>
+ <p>تماس: ${safe(o.phone)}</p>
+ <p>آدرس: ${safe(o.address)}</p>
+ <hr>
+ ${o.items.map(i=>`
+ <p>${safe(i.name)} | ${i.qty} × ${toman(i.unit)} = ${toman(i.qty*i.unit)}</p>
+ `).join('')}
+ <h3>مبلغ نهایی: ${toman(o.total)}</h3>
+ <p>وضعیت: ${safe(o.status)}</p>
+ </div>`;
+
+ show('invoice');
+}
+
+$('trackBtn').addEventListener('click',()=>{
+ let id=$('trackCode').value.trim();
+ let o=orders.find(x=>x.id===id);
+
+ $('trackResult').innerHTML=o
+ ?`<div class="card">
+ <p>سفارش: <b>${safe(o.id)}</b></p>
+ <p>خریدار: ${safe(o.name)}</p>
+ <p>وضعیت: <span class="status">${safe(o.status)}</span></p>
+ <p>مبلغ: ${toman(o.total)}</p>
+ </div>`
+ :'<p class="card">سفارشی با این کد پیدا نشد.</p>';
 });
 
-const ORDER_WHATSAPP="989159309226";
-
-function whatsappOrderText(o){
-return `سلام، سفارش جدید از فروشگاه بازرگانی غلامی
-کد سفارش: ${o.id}
-نام مشتری: ${o.name}
-شماره مشتری: ${o.phone}
-آدرس: ${o.address}
-
-${(o.items||[]).map(i=>`${i.name} | تعداد: ${i.quantity} | مبلغ: ${money(i.lineTotal??i.price*i.quantity)}`).join("\n")}
-
-جمع کل: ${money(o.total)}`;
-}
-
-function sendOrderWhatsApp(id){
-const o=orders.find(x=>x.id===id);
-if(!o)return;
-const url="https://wa.me/"+ORDER_WHATSAPP+"?text="+encodeURIComponent(whatsappOrderText(o));
-window.open(url,"_blank");
-}
-
-$("checkoutBtn").addEventListener("click",()=>{
-if(!cart.length){alert("سبد خرید خالی است");return}
-let name=$("buyerName").value.trim();
-let phone=$("buyerPhone").value.trim();
-let address=$("buyerAddress").value.trim();
-if(!name||!phone||!address){
-alert("اطلاعات خریدار را کامل کنید");return;
-}
-for(let i of cart){
-let p=products.find(x=>x.id===i.id);
-if(!p||Number(p.stock)<i.quantity){
-alert("موجودی کافی نیست");return;
-}
-}
-if(activeCoupon){
-let r=validCoupon(activeCoupon.code);
-if(!r.ok){alert(r.message);activeCoupon=null;renderCart();return}
-}
-let sum=0;
-let items=cart.map(i=>{
-let p=products.find(x=>x.id===i.id);
-let price=discountedPrice(p),line=price*i.quantity;
-sum+=line;p.stock-=i.quantity;
-return{
-id:p.id,name:p.name,price,
-originalPrice:Number(p.price),
-discount:Number(p.discount)||0,
-quantity:i.quantity,lineTotal:line
-};
-});
-let d=couponDiscount(sum);
-let o={
-id:"ORD-"+Date.now(),name,phone,address,items,
-subtotal:sum,couponCode:activeCoupon?.code||"",
-couponDiscount:d,total:sum-d,
-status:"در انتظار ارسال",
-date:new Date().toLocaleString("fa-IR"),
-timestamp:Date.now()
-};
-orders.push(o);
-if(activeCoupon)activeCoupon.used=Number(activeCoupon.used||0)+1;
-cart=[];activeCoupon=null;persist();
-$("couponInput").value="";
-$("buyerName").value="";
-$("buyerPhone").value="";
-$("buyerAddress").value="";
-showInvoice(o.id);
-});function showInvoice(id){
-let o=orders.find(x=>x.id===id);
-if(!o)return;
-$("invoiceContent").innerHTML=`<div class="card">
-<h3>فاکتور بازرگانی غلامی</h3>
-<p>کد سفارش: ${esc(o.id)}</p>
-<p>تاریخ: ${esc(o.date)}</p>
-<p>خریدار: ${esc(o.name)}</p>
-<p>تلفن: ${esc(o.phone)}</p>
-<p>آدرس: ${esc(o.address)}</p>
-<hr>
-${(o.items||[]).map(i=>`<p>${esc(i.name)} - تعداد ${i.quantity}<br>قیمت واحد: ${money(i.price)}<br>جمع: ${money(i.lineTotal??i.price*i.quantity)}</p>`).join("<hr>")}
-<hr>
-<p>جمع محصولات: ${money(o.subtotal??o.total)}</p>
-${o.couponCode?`<p>کد تخفیف: ${esc(o.couponCode)} | تخفیف: ${money(o.couponDiscount)}</p>`:""}
-<h3>مبلغ نهایی: ${money(o.total)}</h3>
-<p>وضعیت: ${esc(o.status)}</p>
-</div>
-<button class="green" onclick="sendOrderWhatsApp('${o.id}')">ارسال سفارش به واتساپ بازرگانی غلامی</button>`;
-showPage("invoice");
-}
-
-$("printInvoice").addEventListener("click",()=>window.print());
-
-function showDetails(id){
-let p=products.find(x=>x.id===id);
-if(!p)return;
-let a=getReviews(id);
-$("detailsContent").innerHTML=`<div class="card">
-<img src="${esc(p.image||"")}" style="width:100%;max-height:280px;object-fit:contain">
-<h2>${esc(p.name)}</h2>
-${discountHTML(p)}${ratingHTML(id)}
-<p>دسته‌بندی: ${esc(p.category||"عمومی")}</p>
-<p>موجودی: ${Number(p.stock)||0}</p>
-<p>${esc(p.description||"توضیحی ثبت نشده است.")}</p>
-<button data-action="add" data-id="${esc(id)}">افزودن به سبد</button>
-</div>
-<div class="card">
-<h3>ثبت نظر</h3>
-<input id="reviewName" placeholder="نام شما">
-<select id="reviewRating">
-<option value="5">۵ ستاره</option>
-<option value="4">۴ ستاره</option>
-<option value="3">۳ ستاره</option>
-<option value="2">۲ ستاره</option>
-<option value="1">۱ ستاره</option>
-</select>
-<textarea id="reviewText" placeholder="نظر شما"></textarea>
-<button id="submitReview" data-review-id="${esc(id)}" class="green">ثبت نظر</button>
-</div>
-<div class="card">
-<h3>نظرات تأییدشده (${a.length})</h3>
-${a.slice().reverse().map(r=>`<div class="review">
-<b>${esc(r.name)}</b>
-<div class="stars">${stars(r.rating)}</div>
-<p>${esc(r.text)}</p>
-<small>${esc(r.date)}</small>
-</div>`).join("")||"هنوز نظری ثبت نشده است."}
-</div>`;
-showPage("details");
-}
-
-document.addEventListener("click",e=>{
-let b=e.target.closest("#submitReview");
-if(!b)return;
-let id=b.dataset.reviewId;
-let name=$("reviewName").value.trim();
-let rating=Number($("reviewRating").value);
-let text=$("reviewText").value.trim();
-if(!name||text.length<3){
-alert("نام و نظر معتبر وارد کنید");return;
-}
-reviews.push({
-id:String(Date.now()),productId:id,name,rating,text,
-status:"pending",date:new Date().toLocaleString("fa-IR")
-});
-persist();showDetails(id);renderProducts();
-alert("نظر برای بررسی مدیر ارسال شد.");
+$('login').addEventListener('click',()=>{
+ if($('password').value==='2468'){
+  admin=true;
+  $('loginBox').classList.add('hidden');
+  $('panel').classList.remove('hidden');
+  drawAdmin();
+ }else{
+  alert('رمز نادرست است');
+ }
 });
 
-function toggleFavorite(id){
-favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];
-persist();renderProducts();renderFavorites();
+$('logout').addEventListener('click',()=>{
+ admin=false;
+ $('panel').classList.add('hidden');
+ $('loginBox').classList.remove('hidden');
+ $('password').value='';
+ show('shop');
+});
+
+$('photo').addEventListener('change',()=>{
+ let f=$('photo').files[0];
+ chosenImage=null;
+
+ if(!f){
+  $('previewWrap').classList.add('hidden');
+  return;
+ }
+
+ if(!f.type.startsWith('image/')){
+  alert('لطفاً تصویر انتخاب کنید');
+  $('photo').value='';
+  return;
+ }
+
+ if(f.size>8*1024*1024){
+  alert('حجم عکس باید کمتر از ۸ مگابایت باشد');
+  $('photo').value='';
+  return;
+ }
+
+ let r=new FileReader();
+
+ r.onload=()=>{
+  $('preview').src=r.result;
+  $('previewWrap').classList.remove('hidden');
+ };
+
+ r.readAsDataURL(f);
+});
+
+$('clearPhoto').addEventListener('click',()=>{
+ $('photo').value='';
+ chosenImage=null;
+ $('preview').removeAttribute('src');
+ $('previewWrap').classList.add('hidden');
+});
+
+function compressImage(file,cb){
+ let r=new FileReader();
+
+ r.onerror=()=>cb(null);
+
+ r.onload=()=>{
+  let im=new Image();
+
+  im.onerror=()=>cb(null);
+
+  im.onload=()=>{
+   let max=900;
+   let scale=Math.min(1,max/Math.max(im.width,im.height));
+   let w=Math.max(1,Math.round(im.width*scale));
+   let h=Math.max(1,Math.round(im.height*scale));
+   let c=document.createElement('canvas');
+
+   c.width=w;
+   c.height=h;
+   c.getContext('2d').drawImage(im,0,0,w,h);
+
+   let out=c.toDataURL('image/jpeg',.78);
+   if(out.length>1200000)out=c.toDataURL('image/jpeg',.58);
+
+   cb(out);
+  };
+
+  im.src=r.result;
+ };
+
+ r.readAsDataURL(file);
 }
 
-function renderFavorites(){
-let a=products.filter(p=>favorites.includes(p.id));
-$("favoriteItems").innerHTML=a.length?a.map(productCard).join(""):"موردی در علاقه‌مندی‌ها نیست.";
+function resetForm(){
+ ['editId','name','price','stock','cat','desc'].forEach(x=>$(x).value='');
+ $('discount').value='0';
+ $('photo').value='';
+ $('preview').removeAttribute('src');
+ $('previewWrap').classList.add('hidden');
+ chosenImage=null;
 }
 
-$("trackBtn").addEventListener("click",()=>{
-let code=$("trackCode").value.trim();
-let o=orders.find(x=>x.id===code);
-$("trackResult").innerHTML=o?
-`<div class="card">
-<h3>سفارش ${esc(o.id)}</h3>
-<p>نام: ${esc(o.name)}</p>
-<p>وضعیت: ${esc(o.status)}</p>
-<p>مبلغ: ${money(o.total)}</p>
-</div>`:"سفارشی با این کد پیدا نشد.";
+$('cancelEdit').addEventListener('click',resetForm);
+
+$('saveProduct').addEventListener('click',()=>{
+ let id=$('editId').value;
+ let name=$('name').value.trim();
+ let priceVal=Number($('price').value);
+ let discount=Number($('discount').value)||0;
+ let stock=Number($('stock').value);
+ let category=$('cat').value.trim();
+ let description=$('desc').value.trim();
+ let file=$('photo').files[0];
+ let old=products.find(x=>x.id===id);
+
+ if(!name||!Number.isFinite(priceVal)||priceVal<0||!Number.isFinite(stock)||stock<0){
+  alert('نام، قیمت و موجودی را درست وارد کنید');
+  return;
+ }
+
+ if(discount<0||discount>99){
+  alert('تخفیف باید بین صفر تا ۹۹ باشد');
+  return;
+ }
+
+ function finish(img){
+  let obj={
+   id:id||String(Date.now()),
+   name,price:priceVal,discount,stock,category,description,
+   image:img||old?.image||''
+  };
+
+  if(old){
+   products=products.map(p=>p.id===id?obj:p);
+  }else{
+   products.push(obj);
+  }
+
+  saveAll();
+  resetForm();
+  drawAdmin();
+  drawProducts();
+  alert('محصول ذخیره شد');
+ }
+
+ if(file){
+  compressImage(file,img=>{
+   if(!img){
+    alert('پردازش تصویر ناموفق بود');
+    return;
+   }
+   finish(img);
+  });
+ }else{
+  finish(old?.image||'');
+ }
 });
 
-$("loginBtn").addEventListener("click",()=>{
-if($("adminPassword").value==="2468"){
-adminLogged=true;
-$("adminLogin").classList.add("hidden");
-$("adminPanel").classList.remove("hidden");
-renderAdmin();
-alert("ورود موفق بود");
-}else alert("رمز عبور اشتباه است");
+function editProduct(id){
+ let p=products.find(x=>x.id===id);
+ if(!p)return;
+
+ $('editId').value=p.id;
+ $('name').value=p.name;
+ $('price').value=p.price;
+ $('discount').value=p.discount||0;
+ $('stock').value=p.stock;
+ $('cat').value=p.category||'';
+ $('desc').value=p.description||'';
+
+ if(p.image){
+  $('preview').src=p.image;
+  $('previewWrap').classList.remove('hidden');
+ }
+
+ show('admin');
+ window.scrollTo(0,0);
+}
+
+function deleteProduct(id){
+ if(!confirm('محصول حذف شود؟'))return;
+
+ products=products.filter(p=>p.id!==id);
+ cart=cart.filter(x=>x.id!==id);
+ favorites=favorites.filter(x=>x!==id);
+
+ saveAll();
+ drawAdmin();
+ drawProducts();
+}
+
+function drawAdmin(){
+ $('manageProducts').innerHTML=products.map(p=>`
+ <div class="card">
+ <b>${safe(p.name)}</b>
+ <p>${toman(price(p))} | موجودی ${p.stock}</p>
+ <button data-do="edit" data-id="${p.id}">ویرایش</button>
+ <button class="danger" data-do="delete" data-id="${p.id}">حذف</button>
+ </div>
+ `).join('')||'محصولی ثبت نشده';
+
+ $('manageOrders').innerHTML=orders.slice().reverse().map(o=>`
+ <div class="card">
+ <b>${safe(o.id)}</b>
+ <p>${safe(o.name)} | ${toman(o.total)}</p>
+ <p>وضعیت: ${safe(o.status)}</p>
+ <button data-do="invoice" data-id="${o.id}">فاکتور</button>
+ <button data-do="status" data-status="در حال آماده‌سازی" data-id="${o.id}">آماده‌سازی</button>
+ <button data-do="status" data-status="ارسال شده" data-id="${o.id}">ارسال شد</button>
+ <button data-do="status" data-status="تحویل شده" data-id="${o.id}">تحویل شد</button>
+ <button class="danger" data-do="orderdel" data-id="${o.id}">حذف</button>
+ </div>
+ `).join('')||'سفارشی ثبت نشده';
+}
+
+function changeStatus(id,status){
+ let o=orders.find(x=>x.id===id);
+ if(o){
+  o.status=status;
+  saveAll();
+  drawAdmin();
+ }
+}
+
+function deleteOrder(id){
+ if(!confirm('سفارش حذف شود؟'))return;
+ orders=orders.filter(x=>x.id!==id);
+ saveAll();
+ drawAdmin();
+}
+
+$('export').addEventListener('click',()=>{
+ let data={products,cart,orders,favorites};
+ let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+ let url=URL.createObjectURL(blob);
+ let a=document.createElement('a');
+ a.href=url;
+ a.download='gholami-trade-backup.json';
+ a.click();
+ URL.revokeObjectURL(url);
 });
 
-$("logoutBtn").addEventListener("click",()=>{
-adminLogged=false;
-$("adminPanel").classList.add("hidden");
-$("adminLogin").classList.remove("hidden");
-$("adminPassword").value="";
-showPage("shop");
+$('import').addEventListener('click',()=>{
+ let f=$('backupFile').files[0];
+
+ if(!f){
+  alert('فایل پشتیبان را انتخاب کنید');
+  return;
+ }
+
+ let r=new FileReader();
+
+ r.onload=()=>{
+  try{
+   let d=JSON.parse(r.result);
+
+   if(Array.isArray(d.products))products=d.products;
+   if(Array.isArray(d.cart))cart=d.cart;
+   if(Array.isArray(d.orders))orders=d.orders;
+   if(Array.isArray(d.favorites))favorites=d.favorites;
+
+   saveAll();
+   drawAdmin();
+   drawProducts();
+   alert('پشتیبان بازیابی شد');
+  }catch{
+   alert('فایل پشتیبان معتبر نیست');
+  }
+ };
+
+ r.readAsText(f);
 });
+
+drawProducts();
+drawCart();
+
+</script>
+</body>
+</html>
