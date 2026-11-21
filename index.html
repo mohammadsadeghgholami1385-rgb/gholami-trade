@@ -869,3 +869,514 @@ init();
 
 </body>
 </html>
+<div class="card">
+<h2>افزودن یا ویرایش محصول</h2>
+<input id="productId" type="hidden">
+<label>نام محصول</label>
+<input id="productName" placeholder="نام محصول">
+<label>قیمت اصلی (تومان)</label>
+<input id="productPrice" type="number" min="0">
+<label>درصد تخفیف</label>
+<input id="productDiscount" type="number" min="0" max="99" value="0">
+<label>موجودی</label>
+<input id="productStock" type="number" min="0">
+<label>دسته‌بندی</label>
+<input id="productCategory" placeholder="مثلاً پوشاک">
+<label>توضیحات</label>
+<textarea id="productDescription"></textarea>
+
+<label>تصویر محصول (از گالری گوشی انتخاب کن)</label>
+<input id="productImage" type="file" accept="image/*">
+
+<div id="imagePreviewWrap" class="card hidden">
+<p class="small">پیش‌نمایش تصویر</p>
+<img id="imagePreview" alt="پیش‌نمایش عکس محصول" style="display:block;max-width:100%;max-height:220px;object-fit:contain;margin:auto">
+<button type="button" id="clearImage" class="gray">حذف تصویر انتخاب‌شده</button>
+</div>
+
+<button id="saveProduct" class="green">ذخیره محصول</button>
+<button id="cancelEdit" class="gray">لغو ویرایش</button>
+</div>
+
+<div class="card">
+<h2>مدیریت کدهای تخفیف</h2>
+<input id="couponCode" placeholder="نام کد، مثلاً SALE20">
+<input id="couponPercent" type="number" min="1" max="90" placeholder="درصد تخفیف">
+<input id="couponLimit" type="number" min="1" placeholder="تعداد دفعات مجاز">
+<label>تاریخ انقضا</label>
+<input id="couponExpiry" type="date">
+<button id="saveCoupon" class="green">ساخت کد تخفیف</button>
+<div id="adminCoupons"></div>
+</div>
+
+<div class="card">
+<h2>مدیریت محصولات</h2>
+<div id="adminProducts"></div>
+</div>
+
+<div class="card">
+<h2>مدیریت نظرات مشتریان</h2>
+<div id="adminReviews"></div>
+</div>
+
+<div class="card">
+<h2>مدیریت سفارش‌ها</h2>
+<div id="adminOrders"></div>
+</div>
+
+<div class="card">
+<h2>پشتیبان‌گیری</h2>
+<button id="exportBtn">دریافت نسخه پشتیبان</button>
+<input id="importFile" type="file" accept=".json">
+<button id="importBtn">بازیابی نسخه پشتیبان</button>
+</div>
+
+<button id="logoutBtn" class="danger">خروج از مدیریت</button>
+</div>
+</section>
+</main>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+
+function read(k,d){
+try{
+const x=JSON.parse(localStorage.getItem(k));
+return x===null?d:x;
+}catch(e){return d}
+}
+
+function save(k,v){
+localStorage.setItem(k,JSON.stringify(v));
+}
+
+let products=read("myProducts",[]);
+let cart=read("myCart",[]);
+let orders=read("myOrders",[]);
+let categories=read("myCategories",[]);
+let favorites=read("myFavorites",[]);
+let reviews=read("myReviews",[]);
+let coupons=read("myCoupons",[]);
+let activeCoupon=null;
+let adminLogged=false;
+
+function persist(){
+save("myProducts",products);
+save("myCart",cart);
+save("myOrders",orders);
+save("myCategories",categories);
+save("myFavorites",favorites);
+save("myReviews",reviews);
+save("myCoupons",coupons);
+}
+
+function esc(v){
+return String(v??"").replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c])));
+}
+
+function money(v){
+return Number(v||0).toLocaleString("fa-IR")+" تومان";
+}
+
+function discountedPrice(p){
+let n=Math.max(0,Number(p.price)||0);
+let d=Math.min(99,Math.max(0,Number(p.discount)||0));
+return Math.round(n*(100-d)/100);
+}
+
+function discountHTML(p){
+let d=Math.min(99,Math.max(0,Number(p.discount)||0));
+return d?
+`<div class="old-price">${money(p.price)}</div>
+<div class="price">${money(discountedPrice(p))}</div>
+<span class="discount">${d}٪ تخفیف</span>`
+:`<span class="price">${money(p.price)}</span>`;
+}
+
+products=products.map(p=>({...p,discount:Math.min(99,Math.max(0,Number(p.discount)||0))}));
+reviews=reviews.map(r=>({...r,status:r.status||"approved"}));
+persist();
+
+function getReviews(id){
+return reviews.filter(r=>r.productId===id&&r.status==="approved");
+}
+
+function averageRating(id){
+let a=getReviews(id);
+return a.length?a.reduce((s,r)=>s+Number(r.rating||0),0)/a.length:0;
+}
+
+function stars(v){
+let n=Math.max(0,Math.min(5,Math.round(Number(v)||0)));
+return "★".repeat(n)+"☆".repeat(5-n);
+}
+
+function ratingHTML(id){
+let a=getReviews(id);
+return a.length?
+`<div class="stars">${stars(averageRating(id))}</div>
+<span class="small">${averageRating(id).toFixed(1)} از ۵ - ${a.length} نظر</span>`:
+`<span class="small">هنوز امتیازی ثبت نشده</span>`;
+}
+
+function updateCategories(){
+categories=[...new Set([...categories,...products.map(p=>p.category).filter(Boolean)])];
+$("categoryFilter").innerHTML=
+'<option value="">همه دسته‌بندی‌ها</option>'+
+categories.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
+save("myCategories",categories);
+}
+
+function showPage(page){
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+$(page)?.classList.add("active");
+if(page==="shop")renderProducts();
+if(page==="cart")renderCart();
+if(page==="favorites")renderFavorites();
+if(page==="admin"&&adminLogged)renderAdmin();
+}
+document.addEventListener("click",e=>{
+let p=e.target.closest("[data-page]");
+if(p){showPage(p.dataset.page);return}
+let a=e.target.closest("[data-action]");
+if(!a)return;
+let id=a.dataset.id;
+switch(a.dataset.action){
+case"add":addToCart(id);break;
+case"favorite":toggleFavorite(id);break;
+case"details":showDetails(id);break;
+case"increase":changeCart(id,1);break;
+case"decrease":changeCart(id,-1);break;
+case"remove":removeCart(id);break;
+case"edit":editProduct(id);break;
+case"delete":deleteProduct(id);break;
+case"invoice":showInvoice(id);break;
+case"status":changeStatus(id,a.dataset.status);break;
+case"deleteOrder":deleteOrder(id);break;
+case"approveReview":reviewStatus(id,"approved");break;
+case"rejectReview":reviewStatus(id,"rejected");break;
+case"deleteReview":deleteReview(id);break;
+case"deleteCoupon":deleteCoupon(id);break;
+}
+});
+
+function productCard(p){
+return `<div class="card product">
+<img src="${esc(p.image||"")}" alt="${esc(p.name)}">
+<h3>${esc(p.name)}</h3>
+${discountHTML(p)}
+${ratingHTML(p.id)}
+<p class="small">دسته: ${esc(p.category||"عمومی")} | موجودی: ${Number(p.stock)||0}</p>
+<div class="row">
+<button data-action="details" data-id="${esc(p.id)}">جزئیات</button>
+<button data-action="add" data-id="${esc(p.id)}">افزودن به سبد</button>
+</div>
+<button class="gray" data-action="favorite" data-id="${esc(p.id)}">
+${favorites.includes(p.id)?"حذف از علاقه‌مندی":"علاقه‌مندی"}
+</button>
+</div>`;
+}
+
+function renderProducts(){
+updateCategories();
+let a=[...products];
+let s=$("search").value.trim().toLowerCase();
+let c=$("categoryFilter").value;
+let o=$("sortFilter").value;
+if(s)a=a.filter(p=>String(p.name).toLowerCase().includes(s));
+if(c)a=a.filter(p=>p.category===c);
+if(o==="cheap")a.sort((x,y)=>discountedPrice(x)-discountedPrice(y));
+if(o==="expensive")a.sort((x,y)=>discountedPrice(y)-discountedPrice(x));
+if(o==="discount")a.sort((x,y)=>(y.discount||0)-(x.discount||0));
+if(o==="rating")a.sort((x,y)=>averageRating(y.id)-averageRating(x.id));
+$("products").innerHTML=a.length?a.map(productCard).join(""):"محصولی پیدا نشد.";
+}
+
+$("search").addEventListener("input",renderProducts);
+$("categoryFilter").addEventListener("change",renderProducts);
+$("sortFilter").addEventListener("change",renderProducts);
+
+function addToCart(id){
+let p=products.find(x=>x.id===id);
+if(!p)return;
+let i=cart.find(x=>x.id===id);
+if((i?.quantity||0)>=(Number(p.stock)||0)){
+alert("موجودی کافی نیست");return;
+}
+if(i)i.quantity++;
+else cart.push({id,quantity:1});
+persist();renderCart();
+alert("به سبد خرید اضافه شد");
+}
+
+function changeCart(id,n){
+let i=cart.find(x=>x.id===id),p=products.find(x=>x.id===id);
+if(!i||!p)return;
+let q=i.quantity+n;
+if(q<1){removeCart(id);return}
+if(q>Number(p.stock)){alert("موجودی کافی نیست");return}
+i.quantity=q;persist();renderCart();
+}
+
+function removeCart(id){
+cart=cart.filter(x=>x.id!==id);
+persist();renderCart();
+}
+
+function validCoupon(code){
+let c=coupons.find(x=>String(x.code).toUpperCase()===code);
+if(!c)return{ok:false,message:"کد تخفیف پیدا نشد."};
+if(c.expiry&&c.expiry<new Date().toISOString().slice(0,10))
+return{ok:false,message:"اعتبار کد تمام شده است."};
+if(Number(c.used)>=Number(c.limit))
+return{ok:false,message:"ظرفیت استفاده تمام شده است."};
+return{ok:true,coupon:c};
+}
+
+function subtotal(){
+return cart.reduce((s,i)=>{
+let p=products.find(x=>x.id===i.id);
+return s+(p?discountedPrice(p)*i.quantity:0);
+},0);
+}
+
+function couponDiscount(n){
+return activeCoupon?Math.round(n*Number(activeCoupon.percent)/100):0;
+}
+
+function renderCart(){
+let sum=0;
+$("cartItems").innerHTML=cart.length?
+cart.map(i=>{
+let p=products.find(x=>x.id===i.id);
+if(!p)return"";
+let v=discountedPrice(p)*i.quantity;
+sum+=v;
+return `<div class="card">
+<b>${esc(p.name)}</b>
+<p>${discountHTML(p)}</p>
+<p>تعداد: ${i.quantity} | جمع: ${money(v)}</p>
+<button data-action="increase" data-id="${esc(p.id)}">+</button>
+<button data-action="decrease" data-id="${esc(p.id)}">-</button>
+<button class="danger" data-action="remove" data-id="${esc(p.id)}">حذف</button>
+</div>`;
+}).join(""):"سبد خرید خالی است.";
+let d=couponDiscount(sum);
+$("cartTotal").innerHTML=`<p>جمع محصولات: ${money(sum)}</p>
+<p>تخفیف کد: ${money(d)}</p>
+<h3>مبلغ قابل پرداخت: ${money(sum-d)}</h3>`;
+}
+
+$("applyCoupon").addEventListener("click",()=>{
+let code=$("couponInput").value.trim().toUpperCase(),r=validCoupon(code);
+if(!code){$("couponMessage").textContent="کد را وارد کنید.";return}
+if(!r.ok){
+activeCoupon=null;
+$("couponMessage").textContent=r.message;
+$("couponMessage").className="small errorText";
+}else{
+activeCoupon=r.coupon;
+$("couponMessage").textContent="کد با موفقیت اعمال شد.";
+$("couponMessage").className="small successText";
+}
+renderCart();
+});
+
+$("removeCoupon").addEventListener("click",()=>{
+activeCoupon=null;
+$("couponInput").value="";
+$("couponMessage").textContent="کد حذف شد.";
+renderCart();
+});
+
+const ORDER_WHATSAPP="989159309226";
+
+function whatsappOrderText(o){
+return `سلام، سفارش جدید از فروشگاه بازرگانی غلامی
+کد سفارش: ${o.id}
+نام مشتری: ${o.name}
+شماره مشتری: ${o.phone}
+آدرس: ${o.address}
+
+${(o.items||[]).map(i=>`${i.name} | تعداد: ${i.quantity} | مبلغ: ${money(i.lineTotal??i.price*i.quantity)}`).join("\n")}
+
+جمع کل: ${money(o.total)}`;
+}
+
+function sendOrderWhatsApp(id){
+const o=orders.find(x=>x.id===id);
+if(!o)return;
+const url="https://wa.me/"+ORDER_WHATSAPP+"?text="+encodeURIComponent(whatsappOrderText(o));
+window.open(url,"_blank");
+}
+
+$("checkoutBtn").addEventListener("click",()=>{
+if(!cart.length){alert("سبد خرید خالی است");return}
+let name=$("buyerName").value.trim();
+let phone=$("buyerPhone").value.trim();
+let address=$("buyerAddress").value.trim();
+if(!name||!phone||!address){
+alert("اطلاعات خریدار را کامل کنید");return;
+}
+for(let i of cart){
+let p=products.find(x=>x.id===i.id);
+if(!p||Number(p.stock)<i.quantity){
+alert("موجودی کافی نیست");return;
+}
+}
+if(activeCoupon){
+let r=validCoupon(activeCoupon.code);
+if(!r.ok){alert(r.message);activeCoupon=null;renderCart();return}
+}
+let sum=0;
+let items=cart.map(i=>{
+let p=products.find(x=>x.id===i.id);
+let price=discountedPrice(p),line=price*i.quantity;
+sum+=line;p.stock-=i.quantity;
+return{
+id:p.id,name:p.name,price,
+originalPrice:Number(p.price),
+discount:Number(p.discount)||0,
+quantity:i.quantity,lineTotal:line
+};
+});
+let d=couponDiscount(sum);
+let o={
+id:"ORD-"+Date.now(),name,phone,address,items,
+subtotal:sum,couponCode:activeCoupon?.code||"",
+couponDiscount:d,total:sum-d,
+status:"در انتظار ارسال",
+date:new Date().toLocaleString("fa-IR"),
+timestamp:Date.now()
+};
+orders.push(o);
+if(activeCoupon)activeCoupon.used=Number(activeCoupon.used||0)+1;
+cart=[];activeCoupon=null;persist();
+$("couponInput").value="";
+$("buyerName").value="";
+$("buyerPhone").value="";
+$("buyerAddress").value="";
+showInvoice(o.id);
+});
+function showInvoice(id){
+let o=orders.find(x=>x.id===id);
+if(!o)return;
+$("invoiceContent").innerHTML=`<div class="card">
+<h3>فاکتور بازرگانی غلامی</h3>
+<p>کد سفارش: ${esc(o.id)}</p>
+<p>تاریخ: ${esc(o.date)}</p>
+<p>خریدار: ${esc(o.name)}</p>
+<p>تلفن: ${esc(o.phone)}</p>
+<p>آدرس: ${esc(o.address)}</p>
+<hr>
+${(o.items||[]).map(i=>`<p>${esc(i.name)} - تعداد ${i.quantity}<br>قیمت واحد: ${money(i.price)}<br>جمع: ${money(i.lineTotal??i.price*i.quantity)}</p>`).join("<hr>")}
+<hr>
+<p>جمع محصولات: ${money(o.subtotal??o.total)}</p>
+${o.couponCode?`<p>کد تخفیف: ${esc(o.couponCode)} | تخفیف: ${money(o.couponDiscount)}</p>`:""}
+<h3>مبلغ نهایی: ${money(o.total)}</h3>
+<p>وضعیت: ${esc(o.status)}</p>
+</div>
+<button class="green" onclick="sendOrderWhatsApp('${o.id}')">ارسال سفارش به واتساپ بازرگانی غلامی</button>`;
+showPage("invoice");
+}
+
+$("printInvoice").addEventListener("click",()=>window.print());
+
+function showDetails(id){
+let p=products.find(x=>x.id===id);
+if(!p)return;
+let a=getReviews(id);
+$("detailsContent").innerHTML=`<div class="card">
+<img src="${esc(p.image||"")}" style="width:100%;max-height:280px;object-fit:contain">
+<h2>${esc(p.name)}</h2>
+${discountHTML(p)}${ratingHTML(id)}
+<p>دسته‌بندی: ${esc(p.category||"عمومی")}</p>
+<p>موجودی: ${Number(p.stock)||0}</p>
+<p>${esc(p.description||"توضیحی ثبت نشده است.")}</p>
+<button data-action="add" data-id="${esc(id)}">افزودن به سبد</button>
+</div>
+<div class="card">
+<h3>ثبت نظر</h3>
+<input id="reviewName" placeholder="نام شما">
+<select id="reviewRating">
+<option value="5">۵ ستاره</option>
+<option value="4">۴ ستاره</option>
+<option value="3">۳ ستاره</option>
+<option value="2">۲ ستاره</option>
+<option value="1">۱ ستاره</option>
+</select>
+<textarea id="reviewText" placeholder="نظر شما"></textarea>
+<button id="submitReview" data-review-id="${esc(id)}" class="green">ثبت نظر</button>
+</div>
+<div class="card">
+<h3>نظرات تأییدشده (${a.length})</h3>
+${a.slice().reverse().map(r=>`<div class="review">
+<b>${esc(r.name)}</b>
+<div class="stars">${stars(r.rating)}</div>
+<p>${esc(r.text)}</p>
+<small>${esc(r.date)}</small>
+</div>`).join("")||"هنوز نظری ثبت نشده است."}
+</div>`;
+showPage("details");
+}
+
+document.addEventListener("click",e=>{
+let b=e.target.closest("#submitReview");
+if(!b)return;
+let id=b.dataset.reviewId;
+let name=$("reviewName").value.trim();
+let rating=Number($("reviewRating").value);
+let text=$("reviewText").value.trim();
+if(!name||text.length<3){
+alert("نام و نظر معتبر وارد کنید");return;
+}
+reviews.push({
+id:String(Date.now()),productId:id,name,rating,text,
+status:"pending",date:new Date().toLocaleString("fa-IR")
+});
+persist();showDetails(id);renderProducts();
+alert("نظر برای بررسی مدیر ارسال شد.");
+});
+
+function toggleFavorite(id){
+favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];
+persist();renderProducts();renderFavorites();
+}
+
+function renderFavorites(){
+let a=products.filter(p=>favorites.includes(p.id));
+$("favoriteItems").innerHTML=a.length?a.map(productCard).join(""):"موردی در علاقه‌مندی‌ها نیست.";
+}
+
+$("trackBtn").addEventListener("click",()=>{
+let code=$("trackCode").value.trim();
+let o=orders.find(x=>x.id===code);
+$("trackResult").innerHTML=o?
+`<div class="card">
+<h3>سفارش ${esc(o.id)}</h3>
+<p>نام: ${esc(o.name)}</p>
+<p>وضعیت: ${esc(o.status)}</p>
+<p>مبلغ: ${money(o.total)}</p>
+</div>`:"سفارشی با این کد پیدا نشد.";
+});
+
+$("loginBtn").addEventListener("click",()=>{
+if($("adminPassword").value==="2468"){
+adminLogged=true;
+$("adminLogin").classList.add("hidden");
+$("adminPanel").classList.remove("hidden");
+renderAdmin();
+alert("ورود موفق بود");
+}else alert("رمز عبور اشتباه است");
+});
+
+$("logoutBtn").addEventListener("click",()=>{
+adminLogged=false;
+$("adminPanel").classList.add("hidden");
+$("adminLogin").classList.remove("hidden");
+$("adminPassword").value="";
+showPage("shop");
+});
