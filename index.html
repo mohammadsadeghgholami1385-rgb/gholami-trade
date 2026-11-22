@@ -3,803 +3,668 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>بازرگانی غلامی | GHOLAMI TRADE</title>
-
+<title>بازرگانی غلامی | GHOLAMICO.IR</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap');
 *{box-sizing:border-box}
-body{margin:0;background:#f3f6fb;color:#202833;font-family:Tahoma,Arial}
-header{background:#fff;text-align:center;padding:18px;border-bottom:4px solid #2769a8;color:#163e62}
-header h1{margin:5px;font-size:24px}
-header p{margin:5px;font-weight:bold}
-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;background:#fff;padding:10px}
-button{border:0;border-radius:7px;background:#1769aa;color:#fff;padding:10px 13px;font-family:inherit;cursor:pointer;margin:3px}
-button:hover{opacity:.86}
-.danger{background:#bd3030}
-.green{background:#17834a}
-.gray{background:#666}
-.orange{background:#b66b00}
-input,select,textarea{width:100%;padding:10px;border:1px solid #ccd2da;border-radius:7px;font-family:inherit;margin:6px 0 12px}
-main{max-width:1100px;margin:auto;padding:12px}
-.page{display:none}
-.page.active{display:block}
-.card{background:white;border-radius:10px;padding:13px;margin:10px 0;box-shadow:0 2px 7px #0001}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-.product img{width:100%;height:175px;object-fit:contain;background:#f5f6f8;border-radius:8px}
-.price{color:#1769aa;font-weight:bold}
-.old{color:#888;text-decoration:line-through;font-size:13px}
-.tag{background:#c32d2d;color:#fff;border-radius:5px;padding:3px 6px;font-size:12px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row>*{flex:1}
-.small{font-size:13px;color:#666}
-.hidden{display:none!important}
-.status{background:#eee;padding:4px 7px;border-radius:5px;font-size:12px}
-hr{border:0;border-top:1px solid #eee;margin:12px 0}
-@media print{
-nav,header,button{display:none!important}
-body{background:#fff}
-#invoice{display:block!important}
-.page{display:none!important}
+:root{--navy:#10243e;--blue:#2864e8;--bg:#eef3f9;--white:#fff;--muted:#718096;--border:#dce4ed;--green:#1ab65c}
+body{margin:0;background:var(--bg);font-family:Vazirmatn,Tahoma,sans-serif;color:#182638}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+header{background:var(--navy);color:#fff;padding:14px}
+.header{max-width:1200px;margin:auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.logo{
+ width:75px;height:75px;background:#fff;border-radius:13px;
+ object-fit:contain;display:none;padding:3px
+}
+.logo.visible{display:block}
+.logoPlaceholder{
+ width:75px;height:75px;border-radius:13px;background:#ffffff12;
+ display:flex;align-items:center;justify-content:center;
+ color:#dceafe;font-size:12px;text-align:center
+}
+.brand h1{font-size:23px;margin:0}
+.brand small{display:block;color:#c4d7f3;letter-spacing:2px;font-size:13px}
+nav{display:flex;flex-wrap:wrap;gap:7px}
+nav button{border:0;border-radius:12px;padding:10px 12px;background:#ffffff12;color:white}
+nav button:hover{background:#ffffff25}
+main{max-width:1200px;margin:auto;padding:16px}
+.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(120deg,#10243e,#275999);color:white;border-radius:24px;padding:28px;margin-bottom:18px}
+.hero h2{font-size:27px;margin:0 0 12px}
+.hero p{font-size:18px;margin:0;color:#dceafe}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+input,select,textarea{width:100%;padding:12px;border:1px solid var(--border);border-radius:13px;background:white;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+.toolbar>*{flex:1;min-width:140px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:13px}
+.product{background:white;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.product img{width:100%;height:165px;object-fit:contain;background:#e9eff7}
+.pbody{padding:12px}
+.pname{font-weight:800;font-size:16px}
+.price{font-size:17px;color:var(--blue);font-weight:800;margin-top:5px}
+.old{text-decoration:line-through;color:#8995a5;font-size:12px}
+.stock{color:var(--muted);font-size:12px;margin:5px 0}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.actions button{flex:1}
+.btn{border:0;border-radius:12px;padding:10px 14px;background:var(--blue);color:white;font-weight:700}
+.btn.secondary{background:#e8eef8;color:var(--navy)}
+.btn.success{background:var(--green)}
+.btn.danger{background:#dc3545}
+.btn.small{font-size:13px;padding:7px 10px}
+.card{background:white;border:1px solid var(--border);border-radius:16px;padding:15px;margin:12px 0}
+.card h3{margin:0 0 12px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1;min-width:130px}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:5px}
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:500px}
+th,td{padding:10px;text-align:right;border-bottom:1px solid var(--border);font-size:13px}
+th{background:#f3f6fa}
+.badge{display:inline-block;background:#eaf1ff;color:#2455a8;padding:4px 9px;border-radius:30px;font-size:12px}
+.empty{text-align:center;color:var(--muted);padding:24px}
+.total{font-size:20px;font-weight:800}
+footer{text-align:center;color:var(--muted);padding:24px;font-size:12px}
+#preview{width:120px;height:120px;object-fit:contain;display:none;margin:10px 0;border-radius:12px}
+#logoPreview{
+ width:150px;height:150px;object-fit:contain;display:none;
+ margin:12px 0;background:#eef3f9;border:1px dashed #b9c9dc;border-radius:15px;padding:8px
+}
+#logoPreview.show{display:block}
+.logoUploadBox{background:#f6f9fd;border:1px dashed #b9c9dc;padding:14px;border-radius:15px;margin-top:10px}
+.floats{position:fixed;bottom:16px;left:15px;display:flex;flex-direction:column;gap:9px;z-index:100}
+.float{display:block;border:0;text-decoration:none;text-align:center;border-radius:50px;padding:12px 17px;color:white;font-weight:800;box-shadow:0 5px 18px #0002}
+.whatsapp{background:#20b85a}
+.call{background:#2864e8}
+.chatbox{display:none;position:fixed;bottom:140px;left:15px;width:min(330px,90vw);background:white;padding:16px;border-radius:17px;box-shadow:0 5px 25px #0002;z-index:110}
+.chatbox.open{display:block}
+@media(max-width:520px){
+ main{padding:10px}.hero h2{font-size:22px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .product img{height:135px}.pbody{padding:9px}
+ nav button{padding:8px;font-size:12px}
+ .brand h1{font-size:21px}
 }
 </style>
 </head>
-
 <body>
-
 <header>
-<h1>بازرگانی غلامی</h1>
-<p>GHOLAMI TRADE</p>
-<p>خرید آسان و مطمئن</p>
+<div class="header">
+ <div class="brand">
+  <img class="logo" id="storeLogo" alt="لوگوی بازرگانی غلامی">
+  <div class="logoPlaceholder" id="logoPlaceholder">لوگوی<br>بازرگانی</div>
+  <div><h1>بازرگانی غلامی</h1><small>GHOLAMICO.IR</small></div>
+ </div>
+ <nav>
+  <button onclick="go('shop')">فروشگاه</button>
+  <button onclick="go('cart')">سبد 🛒 <span id="cartCount">0</span></button>
+  <button onclick="go('favorites')">علاقه‌مندی ♥</button>
+  <button onclick="go('tracking')">پیگیری سفارش</button>
+  <button onclick="go('admin')">مدیریت</button>
+ </nav>
+</div>
 </header>
 
-<nav>
-<button data-page="shop">فروشگاه</button>
-<button data-page="cart">سبد خرید</button>
-<button data-page="favorites">علاقه‌مندی‌ها</button>
-<button data-page="tracking">پیگیری سفارش</button>
-<button data-page="admin">مدیریت</button>
-</nav>
-
 <main>
-
-<section id="shop" class="page active">
-<h2>فروشگاه</h2>
-<input id="search" placeholder="جستجوی محصولات...">
-
-<div class="row">
-<select id="category">
-<option value="">همه دسته‌ها</option>
-</select>
-
-<select id="sort">
-<option value="">مرتب‌سازی</option>
-<option value="cheap">ارزان‌ترین</option>
-<option value="expensive">گران‌ترین</option>
-</select>
-</div>
-
-<div id="products" class="grid"></div>
+<section class="page active" id="shop">
+ <div class="hero">
+  <h2>به بازرگانی غلامی خوش آمدید</h2>
+  <p>خرید آسان، مطمئن و مستقیم</p>
+ </div>
+ <div class="toolbar">
+  <input id="search" placeholder="جستجوی کالا..." oninput="renderProducts()">
+  <select id="catFilter" onchange="renderProducts()"><option value="">همه دسته‌ها</option></select>
+  <select id="sort" onchange="renderProducts()">
+   <option value="">مرتب‌سازی</option>
+   <option value="cheap">ارزان‌ترین</option>
+   <option value="expensive">گران‌ترین</option>
+   <option value="new">جدیدترین</option>
+  </select>
+ </div>
+ <div class="grid" id="products"></div>
 </section>
 
-<section id="details" class="page">
-<button data-page="shop">بازگشت به فروشگاه</button>
-<div id="detailBox"></div>
+<section class="page" id="cart">
+<h2>سبد خرید</h2><div class="card" id="cartContent"></div>
 </section>
 
-<section id="cart" class="page">
-<h2>سبد خرید</h2>
-<div id="cartBox"></div>
-<div id="cartSum" class="card"></div>
-
-<div class="card">
-<h3>اطلاعات خریدار</h3>
-<input id="customer" placeholder="نام و نام خانوادگی">
-<input id="phone" placeholder="شماره تماس">
-<textarea id="address" placeholder="آدرس کامل"></textarea>
-<button id="orderBtn" class="green">ثبت سفارش</button>
-</div>
+<section class="page" id="favorites">
+<h2>علاقه‌مندی‌ها</h2><div class="grid" id="favoriteProducts"></div>
 </section>
 
-<section id="favorites" class="page">
-<h2>علاقه‌مندی‌ها</h2>
-<div id="favBox" class="grid"></div>
-</section>
-
-<section id="tracking" class="page">
+<section class="page" id="tracking">
 <h2>پیگیری سفارش</h2>
-<input id="trackCode" placeholder="کد سفارش">
-<button id="trackBtn">پیگیری</button>
-<div id="trackResult"></div>
+<div class="card">
+ <div class="field"><label>کد پیگیری</label><input id="trackCode" placeholder="کد سفارش GT-..."></div>
+ <button class="btn" onclick="trackOrder()">پیگیری سفارش</button>
+ <div id="trackResult"></div>
+</div>
 </section>
 
-<section id="invoice" class="page">
-<h2>فاکتور</h2>
-<div id="invoiceBox"></div>
-<button onclick="window.print()">چاپ فاکتور</button>
-<button data-page="shop">بازگشت به فروشگاه</button>
-</section>
-
-<section id="admin" class="page">
-
-<div id="loginBox" class="card">
-<h2>ورود مدیر</h2>
-<input id="password" type="password" placeholder="رمز مدیریت">
-<button id="login">ورود</button>
+<section class="page" id="admin">
+<h2>پنل مدیریت</h2>
+<div class="card" id="adminLogin">
+ <p>رمز ورود مدیر را وارد کنید.</p>
+ <input id="adminPass" type="password" placeholder="رمز مدیریت">
+ <button class="btn" onclick="loginAdmin()">ورود</button>
 </div>
 
-<div id="panel" class="hidden">
+<div id="adminPanel" style="display:none">
+ <div class="card">
+  <h3>ثبت یا ویرایش محصول</h3>
+  <input type="hidden" id="editId">
+  <div class="row">
+   <div class="field"><label>نام محصول</label><input id="pName"></div>
+   <div class="field"><label>قیمت (تومان)</label><input id="pPrice" type="number" min="0"></div>
+  </div>
+  <div class="row">
+   <div class="field"><label>درصد تخفیف</label><input id="pDiscount" type="number" min="0" max="99" value="0"></div>
+   <div class="field"><label>موجودی</label><input id="pStock" type="number" min="0" value="1"></div>
+  </div>
+  <div class="row">
+   <div class="field"><label>دسته‌بندی</label><input id="pCategory" placeholder="مثلاً لوازم خانه"></div>
+   <div class="field"><label>عکس از گالری گوشی</label><input id="pImage" type="file" accept="image/*" onchange="previewImage(this)"></div>
+  </div>
+  <img id="preview" alt="پیش نمایش عکس">
+  <div class="field"><label>توضیحات</label><textarea id="pDesc" rows="3"></textarea></div>
+  <button class="btn success" onclick="saveProduct()">ذخیره محصول</button>
+  <button class="btn secondary" onclick="clearProductForm()">فرم جدید</button>
+ </div>
 
-<div class="card">
-<h2>ثبت / ویرایش محصول</h2>
+ <div class="card">
+  <h3>مدیریت محصولات</h3>
+  <div class="tablewrap"><table><thead><tr><th>نام</th><th>قیمت</th><th>موجودی</th><th>عملیات</th></tr></thead><tbody id="adminProducts"></tbody></table></div>
+ </div>
+ <div class="card">
+  <h3>مدیریت سفارش‌ها</h3>
+  <div class="tablewrap"><table><thead><tr><th>کد</th><th>مشتری</th><th>مبلغ</th><th>وضعیت</th><th>عملیات</th></tr></thead><tbody id="adminOrders"></tbody></table></div>
+ </div>
 
-<input id="editId" type="hidden">
+ <!-- بخش بارگذاری لوگو -->
+ <div class="card">
+  <h3>🖼️ لوگوی فروشگاه</h3>
+  <p>لوگوی موردنظر را مستقیماً از گالری گوشی انتخاب کن.</p>
+  <div class="logoUploadBox">
+   <label class="field">
+    <b>انتخاب تصویر لوگو</b>
+    <input type="file" id="logoFile" accept="image/*" onchange="previewStoreLogo(this)">
+   </label>
+   <img id="logoPreview" alt="پیش‌نمایش لوگوی انتخابی">
+   <div class="row">
+    <button class="btn success" onclick="saveStoreLogo()">ذخیره و نمایش لوگو</button>
+    <button class="btn danger" onclick="removeStoreLogo()">حذف لوگو</button>
+   </div>
+   <p style="font-size:12px;color:#718096">پس از ذخیره، لوگو در بالای سایت نمایش داده می‌شود.</p>
+  </div>
+ </div>
 
-<label>نام محصول</label>
-<input id="name" placeholder="نام محصول">
+ <div class="card">
+  <h3>تنظیمات فروشگاه</h3>
+  <div class="row">
+   <div class="field"><label>هزینه ارسال (تومان)</label><input id="shipping" type="number" min="0"></div>
+   <div class="field"><label>کد تخفیف</label><input id="couponCode"></div>
+   <div class="field"><label>درصد تخفیف کد</label><input id="couponDiscount" type="number" min="0" max="100"></div>
+  </div>
+  <button class="btn" onclick="saveSettings()">ذخیره تنظیمات</button>
+ </div>
 
-<label>قیمت (تومان)</label>
-<input id="price" type="number" min="0">
-
-<label>درصد تخفیف</label>
-<input id="discount" type="number" min="0" max="99" value="0">
-
-<label>موجودی</label>
-<input id="stock" type="number" min="0">
-
-<label>دسته‌بندی</label>
-<input id="cat" placeholder="مثلاً لوازم خانگی">
-
-<label>توضیحات</label>
-<textarea id="desc"></textarea>
-
-<label>عکس محصول از گالری گوشی</label>
-<input id="photo" type="file" accept="image/*">
-
-<div id="previewWrap" class="hidden">
-<img id="preview" style="display:block;max-width:100%;max-height:220px;margin:10px auto;object-fit:contain" alt="پیش‌نمایش تصویر">
-<button id="clearPhoto" class="gray">پاک‌کردن تصویر انتخابی</button>
-</div>
-
-<button id="saveProduct" class="green">ذخیره محصول</button>
-<button id="cancelEdit" class="gray">لغو و پاک‌کردن فرم</button>
-</div>
-
-<div class="card">
-<h2>محصولات ثبت‌شده</h2>
-<div id="manageProducts"></div>
-</div>
-
-<div class="card">
-<h2>سفارش‌ها</h2>
-<div id="manageOrders"></div>
-</div>
-
-<div class="card">
-<h2>پشتیبان</h2>
-<button id="export">دانلود پشتیبان</button>
-<input type="file" id="backupFile" accept=".json">
-<button id="import">بازیابی پشتیبان</button>
-</div>
-
-<button id="logout" class="danger">خروج از مدیریت</button>
-
+ <div class="card">
+  <h3>پشتیبان اطلاعات</h3>
+  <button class="btn" onclick="exportData()">دریافت پشتیبان</button>
+  <div class="field" style="margin-top:12px"><label>فایل بازیابی</label><input type="file" id="importFile" accept=".json,application/json"></div>
+  <button class="btn secondary" onclick="importData()">بازیابی</button>
+  <button class="btn danger" onclick="logoutAdmin()">خروج مدیر</button>
+ </div>
 </div>
 </section>
 </main>
 
+<div class="floats">
+ <button class="float whatsapp" onclick="openChat()">💬 چت با ما</button>
+ <a class="float call" href="tel:09159309226">📞 تماس با ما</a>
+</div>
+
+<div class="chatbox" id="chatPanel">
+ <h3>چت با بازرگانی غلامی</h3>
+ <p>پیامتان را بنویسید تا در واتساپ برای ما ارسال شود.</p>
+ <div class="field"><label>نام</label><input id="chatName" placeholder="نام شما"></div>
+ <div class="field"><label>پیام</label><textarea id="chatMessage" rows="3" placeholder="متن پیام..."></textarea></div>
+ <button class="btn success" style="width:100%" onclick="sendChat()">ارسال واتساپی</button>
+ <button class="btn secondary" style="width:100%;margin-top:7px" onclick="closeChat()">بستن</button>
+</div>
+
+<footer>© بازرگانی غلامی | GHOLAMICO.IR<br>تماس: 09159309226</footer>
+<div id="toast"></div>
+
 <script>
-'use strict';
-
 const $=id=>document.getElementById(id);
+const K={products:"gt_products",cart:"gt_cart",orders:"gt_orders",favs:"gt_favs",settings:"gt_settings"};
+const WA="989217605194";
+const PHONE="09159309226";
 
-function load(key,def){
+const read=(k,d=[])=>{
+ try{return JSON.parse(localStorage.getItem(k))??d}
+ catch{return d}
+};
+
+let products=read(K.products),cart=read(K.cart),orders=read(K.orders),favorites=read(K.favs);
+let settings=read(K.settings,{shipping:0,coupon:"",discount:0,logo:""});
+let admin=false,couponActive=false,uploadedImage="",pendingLogo="";
+
+function migrate(){
+ const oldP=read("myProducts");
+ if(!products.length&&oldP.length){
+  products=oldP.map(p=>({
+   id:p.id||Date.now()+Math.random(),
+   name:p.name||p.title||"محصول",
+   price:+p.price||0,discount:+p.discount||0,stock:+p.stock||0,
+   category:p.category||"عمومی",desc:p.desc||p.description||"",
+   image:p.image||p.img||"",sold:+p.sold||0
+  }));
+ }
+ if(!cart.length)cart=read("myCart",cart);
+ if(!orders.length)orders=read("myOrders",orders);
+ if(!favorites.length)favorites=read("myFavorites",favorites);
+}
+migrate();
+
+function persist(){
  try{
-  const v=JSON.parse(localStorage.getItem(key));
-  return v===null?def:v;
- }catch{
-  return def;
+  localStorage.setItem(K.products,JSON.stringify(products));
+  localStorage.setItem(K.cart,JSON.stringify(cart));
+  localStorage.setItem(K.orders,JSON.stringify(orders));
+  localStorage.setItem(K.favs,JSON.stringify(favorites));
+  localStorage.setItem(K.settings,JSON.stringify(settings));
+ }catch(e){
+  alert("حافظه گوشی پر شده است؛ لطفاً عکس کوچک‌تری انتخاب کنید یا پشتیبان بگیرید.");
  }
 }
 
-let products=load('gt_products',[]);
-let cart=load('gt_cart',[]);
-let orders=load('gt_orders',[]);
-let favorites=load('gt_favs',[]);
-let admin=false;
-let chosenImage=null;
-
-function saveAll(){
- localStorage.setItem('gt_products',JSON.stringify(products));
- localStorage.setItem('gt_cart',JSON.stringify(cart));
- localStorage.setItem('gt_orders',JSON.stringify(orders));
- localStorage.setItem('gt_favs',JSON.stringify(favorites));
+function esc(s){
+ return String(s??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+function money(n){return (Number(n)||0).toLocaleString("fa-IR")+" تومان"}
+function finalPrice(p){return Math.round((Number(p.price)||0)*(1-(Number(p.discount)||0)/100))}
+function toast(s){
+ $("toast").textContent=s;
+ $("toast").classList.add("show");
+ setTimeout(()=>$("toast").classList.remove("show"),2500);
 }
 
-function safe(s){
- return String(s??'').replace(/[&<>"']/g,ch=>({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#39;'
- }[ch]));
+function showStoreLogo(){
+ const logo=$("storeLogo"),placeholder=$("logoPlaceholder");
+ if(settings.logo){
+  logo.src=settings.logo;
+  logo.classList.add("visible");
+  placeholder.style.display="none";
+  logo.onerror=()=>{
+   logo.classList.remove("visible");
+   placeholder.style.display="flex";
+  };
+ }else{
+  logo.removeAttribute("src");
+  logo.classList.remove("visible");
+  placeholder.style.display="flex";
+ }
 }
 
-function toman(n){
- return Number(n||0).toLocaleString('fa-IR')+' تومان';
-}
-
-function price(p){
- return Math.round(Number(p.price||0)*(100-(Number(p.discount)||0))/100);
-}
-
-function show(page){
- document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
- $(page)?.classList.add('active');
-
- if(page==='shop')drawProducts();
- if(page==='cart')drawCart();
- if(page==='favorites')drawFavs();
- if(page==='admin'&&admin)drawAdmin();
-}
-
-document.addEventListener('click',e=>{
- let nav=e.target.closest('[data-page]');
- if(nav){
-  show(nav.dataset.page);
+// بارگذاری لوگو از گالری
+function previewStoreLogo(input){
+ const file=input.files&&input.files[0];
+ if(!file)return;
+ if(!file.type.startsWith("image/")){
+  alert("لطفاً یک فایل تصویری انتخاب کنید.");
+  input.value="";
   return;
  }
-
- let b=e.target.closest('[data-do]');
- if(!b)return;
-
- const id=b.dataset.id;
-
- switch(b.dataset.do){
-  case'add':addCart(id);break;
-  case'fav':toggleFav(id);break;
-  case'detail':details(id);break;
-  case'plus':qty(id,1);break;
-  case'minus':qty(id,-1);break;
-  case'remove':
-   cart=cart.filter(x=>x.id!==id);
-   saveAll();
-   drawCart();
-   break;
-  case'edit':editProduct(id);break;
-  case'delete':deleteProduct(id);break;
-  case'invoice':invoice(id);break;
-  case'status':changeStatus(id,b.dataset.status);break;
-  case'orderdel':deleteOrder(id);break;
+ if(file.size>12*1024*1024){
+  alert("حجم عکس زیاد است. لطفاً تصویر کمتر از ۱۲ مگابایت انتخاب کنید.");
+  input.value="";
+  return;
  }
-});
-
-function drawProducts(){
- let list=products.slice();
- let q=$('search').value.trim().toLowerCase();
- let c=$('category').value;
- let sort=$('sort').value;
-
- list=list.filter(p=>
-  (!q||(p.name+' '+(p.category||'')+' '+(p.description||'')).toLowerCase().includes(q))
-  &&(!c||p.category===c)
- );
-
- if(sort==='cheap')list.sort((a,b)=>price(a)-price(b));
- if(sort==='expensive')list.sort((a,b)=>price(b)-price(a));
-
- let cats=[...new Set(products.map(p=>p.category).filter(Boolean))];
-
- $('category').innerHTML='<option value="">همه دسته‌ها</option>'+
- cats.map(x=>`<option>${safe(x)}</option>`).join('');
-
- $('category').value=c;
-
- $('products').innerHTML=list.map(p=>`
- <div class="card product">
- ${p.image
-  ?`<img src="${p.image}" alt="${safe(p.name)}">`
-  :`<div style="height:175px;background:#f5f5f5;border-radius:8px;display:grid;place-items:center">بدون تصویر</div>`}
-
- <h3>${safe(p.name)}</h3>
- <p>${safe(p.category||'')}</p>
-
- ${p.discount
-  ?`<span class="old">${toman(p.price)}</span>
-    <span class="tag">${p.discount}٪ تخفیف</span>`
-  :''}
-
- <p class="price">${toman(price(p))}</p>
- <p>موجودی: ${Number(p.stock).toLocaleString('fa-IR')}</p>
-
- <button data-do="detail" data-id="${safe(p.id)}">جزئیات</button>
- <button data-do="add" data-id="${safe(p.id)}">افزودن به سبد</button>
- <button data-do="fav" data-id="${safe(p.id)}">${favorites.includes(p.id)?'★':'☆'} پسندیدن</button>
- </div>
- `).join('')||'<p class="card">محصولی یافت نشد.</p>';
+ const reader=new FileReader();
+ reader.onload=()=>{
+  const img=new Image();
+  img.onload=()=>{
+   // کاهش حجم بدون تغییر نسبت تصویر و حفظ شفافیت
+   const max=600;
+   let w=img.width,h=img.height;
+   if(w>max||h>max){
+    const ratio=Math.min(max/w,max/h);
+    w=Math.round(w*ratio);
+    h=Math.round(h*ratio);
+   }
+   const canvas=document.createElement("canvas");
+   canvas.width=w;canvas.height=h;
+   const ctx=canvas.getContext("2d");
+   ctx.clearRect(0,0,w,h);
+   ctx.drawImage(img,0,0,w,h);
+   pendingLogo=canvas.toDataURL("image/webp",0.85);
+   $("logoPreview").src=pendingLogo;
+   $("logoPreview").classList.add("show");
+   toast("پیش‌نمایش لوگو آماده شد.");
+  };
+  img.onerror=()=>alert("خواندن تصویر امکان‌پذیر نیست.");
+  img.src=reader.result;
+ };
+ reader.readAsDataURL(file);
 }
 
-$('search').addEventListener('input',drawProducts);
-$('category').addEventListener('change',drawProducts);
-$('sort').addEventListener('change',drawProducts);
+function saveStoreLogo(){
+ if(!pendingLogo)return alert("ابتدا لوگو را از گالری انتخاب کنید.");
+ const previous=settings.logo;
+ settings.logo=pendingLogo;
+ try{
+  localStorage.setItem(K.settings,JSON.stringify(settings));
+  showStoreLogo();
+  toast("لوگو با موفقیت ذخیره شد.");
+ }catch(e){
+  settings.logo=previous;
+  alert("ذخیره لوگو انجام نشد. لطفاً تصویر کوچک‌تری انتخاب کنید.");
+ }
+}
+
+function removeStoreLogo(){
+ if(!settings.logo&&!pendingLogo)return toast("لوگویی ثبت نشده است.");
+ if(!confirm("لوگوی فعلی حذف شود؟"))return;
+ settings.logo="";
+ pendingLogo="";
+ $("logoFile").value="";
+ $("logoPreview").removeAttribute("src");
+ $("logoPreview").classList.remove("show");
+ persist();
+ showStoreLogo();
+ toast("لوگو حذف شد.");
+}
+
+function go(id){
+ document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+ $(id).classList.add("active");
+ if(id==="cart")renderCart();
+ if(id==="favorites")renderFavorites();
+ if(id==="admin"&&admin)renderAdmin();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+function updateCount(){
+ $("cartCount").textContent=cart.reduce((s,i)=>s+(+i.qty||0),0)
+}
+
+function renderProducts(){
+ const cats=[...new Set(products.map(p=>p.category).filter(Boolean))];
+ const sel=$("catFilter"),old=sel.value;
+ sel.innerHTML='<option value="">همه دسته‌ها</option>';
+ cats.forEach(c=>{
+  const o=document.createElement("option");
+  o.value=c;o.textContent=c;sel.appendChild(o);
+ });
+ if(cats.includes(old))sel.value=old;
+ const q=$("search").value.trim().toLowerCase(),cat=sel.value;
+ let list=products.filter(p=>
+  (!q||(p.name+" "+p.category+" "+p.desc).toLowerCase().includes(q))&&
+  (!cat||p.category===cat)
+ );
+ if($("sort").value==="cheap")list.sort((a,b)=>finalPrice(a)-finalPrice(b));
+ if($("sort").value==="expensive")list.sort((a,b)=>finalPrice(b)-finalPrice(a));
+ if($("sort").value==="new")list.sort((a,b)=>Number(b.id)-Number(a.id));
+ $("products").innerHTML=list.length?list.map(card).join(""):'<div class="empty">محصولی برای نمایش وجود ندارد.</div>';
+}
+
+function card(p){
+ const fav=favorites.map(String).includes(String(p.id));
+ return `<article class="product">
+ <img src="${esc(p.image||"")}" alt="${esc(p.name)}" onerror="this.onerror=null;this.removeAttribute('src')">
+ <div class="pbody">
+ <div class="pname">${esc(p.name)}</div>
+ ${p.discount?`<span class="old">${money(p.price)}</span> <span class="badge">${p.discount}% تخفیف</span>`:""}
+ <div class="price">${money(finalPrice(p))}</div>
+ <div class="stock">${p.stock>0?"موجودی: "+p.stock:"ناموجود"}</div>
+ <div class="actions">
+ <button class="btn small" ${p.stock<=0?"disabled":""} onclick="addCart('${p.id}')">افزودن</button>
+ <button class="btn secondary small" onclick="toggleFav('${p.id}')">${fav?"♥":"♡"}</button>
+ </div>
+ <button class="btn secondary small" style="width:100%;margin-top:7px" onclick="details('${p.id}')">جزئیات</button>
+ </div></article>`;
+}
 
 function addCart(id){
- let p=products.find(x=>x.id===id);
- if(!p)return;
-
- if(p.stock<=0){
-  alert('این محصول موجود نیست');
-  return;
- }
-
- let i=cart.find(x=>x.id===id);
-
+ const p=products.find(x=>String(x.id)===String(id));
+ if(!p||p.stock<=0)return toast("این محصول موجود نیست.");
+ let i=cart.find(x=>String(x.id)===String(id));
  if(i){
-  if(i.qty>=p.stock){
-   alert('بیشتر از موجودی نمی‌توانید انتخاب کنید');
-   return;
-  }
+  if(i.qty>=p.stock)return toast("موجودی کافی نیست.");
   i.qty++;
- }else{
-  cart.push({id,qty:1});
- }
-
- saveAll();
- alert('به سبد خرید اضافه شد');
+ }else cart.push({id:p.id,qty:1});
+ persist();updateCount();toast("به سبد خرید اضافه شد.");
+}
+function changeQty(id,d){
+ const i=cart.find(x=>String(x.id)===String(id)),p=products.find(x=>String(x.id)===String(id));
+ if(!i||!p)return;
+ const n=i.qty+d;
+ if(n>p.stock)return toast("موجودی کافی نیست.");
+ if(n<=0)cart=cart.filter(x=>String(x.id)!==String(id));
+ else i.qty=n;
+ persist();renderCart();updateCount();
+}
+function removeCart(id){
+ cart=cart.filter(x=>String(x.id)!==String(id));
+ persist();renderCart();updateCount();
 }
 
-function qty(id,d){
- let item=cart.find(x=>x.id===id);
- let p=products.find(x=>x.id===id);
- if(!item)return;
-
- item.qty+=d;
-
- if(item.qty<=0){
-  cart=cart.filter(x=>x.id!==id);
- }
-
- if(p&&item.qty>p.stock){
-  item.qty=p.stock;
-  alert('موجودی محدود است');
- }
-
- saveAll();
- drawCart();
-}
-
-function drawCart(){
- let html=cart.map(i=>{
-  let p=products.find(x=>x.id===i.id);
-  if(!p)return '';
-
-  return `
-  <div class="card">
-  <b>${safe(p.name)}</b>
-  <p>${toman(price(p))} | تعداد: ${i.qty}</p>
-  <button data-do="minus" data-id="${i.id}">−</button>
-  <button data-do="plus" data-id="${i.id}">+</button>
-  <button class="danger" data-do="remove" data-id="${i.id}">حذف</button>
+function renderCart(){
+ let subtotal=0;
+ const rows=cart.map(i=>{
+  const p=products.find(x=>String(x.id)===String(i.id));
+  if(!p)return "";
+  const total=finalPrice(p)*i.qty;subtotal+=total;
+  return `<div class="row" style="align-items:center;padding:10px 0;border-bottom:1px solid #eee">
+   <div><b>${esc(p.name)}</b><div>${money(finalPrice(p))}</div></div>
+   <div style="display:flex;align-items:center;justify-content:center;gap:7px">
+   <button class="btn secondary small" onclick="changeQty('${p.id}',-1)">−</button>${i.qty}
+   <button class="btn secondary small" onclick="changeQty('${p.id}',1)">+</button></div>
+   <div>${money(total)} <button class="btn danger small" onclick="removeCart('${p.id}')">حذف</button></div>
   </div>`;
- }).join('');
+ }).join("");
+ const disc=couponActive?Math.round(subtotal*(Number(settings.discount)||0)/100):0;
+ const shipping=subtotal?Number(settings.shipping)||0:0;
+ $("cartContent").innerHTML=cart.length?`${rows}
+ <hr>
+ <div class="field"><label>کد تخفیف</label><div class="row"><input id="cartCoupon" placeholder="کد تخفیف"><button class="btn" onclick="applyCoupon()">اعمال</button></div></div>
+ ${couponActive?'<p style="color:green">کد تخفیف اعمال شد.</p>':""}
+ <p>جمع کالاها: ${money(subtotal)}</p><p>تخفیف: ${money(disc)}</p><p>ارسال: ${money(shipping)}</p>
+ <p class="total">مبلغ نهایی: ${money(subtotal-disc+shipping)}</p>
+ <hr><h3>اطلاعات خریدار</h3>
+ <div class="field"><label>نام و نام خانوادگی</label><input id="buyerName"></div>
+ <div class="field"><label>موبایل</label><input id="buyerPhone" type="tel"></div>
+ <div class="field"><label>آدرس</label><textarea id="buyerAddress" rows="3"></textarea></div>
+ <button class="btn success" onclick="checkout()">ثبت سفارش و ارسال به واتساپ</button>`
+ :' <div class="empty">سبد خرید شما خالی است.</div>';
+}
 
- $('cartBox').innerHTML=html||'<p class="card">سبد خرید خالی است.</p>';
+function applyCoupon(){
+ const c=($("cartCoupon").value||"").trim().toUpperCase();
+ couponActive=!!settings.coupon&&c===String(settings.coupon).toUpperCase();
+ toast(couponActive?"کد تخفیف اعمال شد.":"کد تخفیف نامعتبر است.");
+ renderCart();
+}
 
- let sum=cart.reduce((s,i)=>{
-  let p=products.find(x=>x.id===i.id);
-  return s+(p?price(p)*i.qty:0);
- },0);
+function checkout(){
+ const name=$("buyerName").value.trim(),phone=$("buyerPhone").value.trim(),address=$("buyerAddress").value.trim();
+ if(!name||!phone||!address)return alert("تمام اطلاعات مشتری را وارد کنید.");
+ if(!cart.length)return alert("سبد خرید خالی است.");
+ for(const i of cart){
+  const p=products.find(x=>String(x.id)===String(i.id));
+  if(!p||p.stock<i.qty)return alert("موجودی یکی از محصولات کافی نیست.");
+ }
+ let subtotal=0,items=[];
+ cart.forEach(i=>{
+  const p=products.find(x=>String(x.id)===String(i.id)),unit=finalPrice(p),total=unit*i.qty;
+  subtotal+=total;items.push({id:p.id,name:p.name,price:unit,qty:i.qty,total});
+ });
+ const discount=couponActive?Math.round(subtotal*(Number(settings.discount)||0)/100):0;
+ const shipping=subtotal?Number(settings.shipping)||0:0;
+ const o={id:"GT-"+Date.now().toString().slice(-8),date:new Date().toLocaleString("fa-IR"),name,phone,address,items,subtotal,discount,shipping,total:subtotal-discount+shipping,status:"ثبت شده"};
+ cart.forEach(i=>{
+  const p=products.find(x=>String(x.id)===String(i.id));
+  p.stock-=i.qty;p.sold=(p.sold||0)+i.qty;
+ });
+ orders.unshift(o);cart=[];couponActive=false;persist();updateCount();
+ const msg=`🛍 سفارش جدید GHOLAMICO.IR
+کد سفارش: ${o.id}
+تاریخ: ${o.date}
+نام: ${name}
+موبایل: ${phone}
+آدرس: ${address}
 
- $('cartSum').innerHTML=`<h3>جمع کل: ${toman(sum)}</h3>`;
+${items.map(i=>`• ${i.name} × ${i.qty} = ${money(i.total)}`).join("\n")}
+
+جمع کالاها: ${money(subtotal)}
+تخفیف: ${money(discount)}
+ارسال: ${money(shipping)}
+مبلغ نهایی: ${money(o.total)}`;
+ alert("سفارش ثبت شد. واتساپ باز می‌شود. کد پیگیری: "+o.id);
+ go("tracking");$("trackCode").value=o.id;trackOrder();
+ window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(msg),"_blank");
 }
 
 function toggleFav(id){
- favorites.includes(id)
-  ?favorites=favorites.filter(x=>x!==id)
-  :favorites.push(id);
-
- saveAll();
- drawProducts();
- drawFavs();
+ id=String(id);favorites=favorites.map(String);
+ favorites=favorites.includes(id)?favorites.filter(x=>x!==id):favorites.concat(id);
+ persist();renderProducts();renderFavorites();
 }
-
-function drawFavs(){
- $('favBox').innerHTML=favorites.map(id=>{
-  let p=products.find(x=>x.id===id);
-
-  return p?`
-  <div class="card">
-  <b>${safe(p.name)}</b>
-  <p class="price">${toman(price(p))}</p>
-  <button data-do="add" data-id="${id}">افزودن به سبد</button>
-  <button data-do="fav" data-id="${id}">حذف از علاقه‌مندی</button>
-  </div>`:'';
- }).join('')||'<p>موردی ذخیره نشده است.</p>';
+function renderFavorites(){
+ const list=products.filter(p=>favorites.map(String).includes(String(p.id)));
+ $("favoriteProducts").innerHTML=list.length?list.map(card).join(""):'<div class="empty">علاقه‌مندی شما خالی است.</div>';
 }
-
 function details(id){
- let p=products.find(x=>x.id===id);
- if(!p)return;
-
- $('detailBox').innerHTML=`
- <div class="card">
- ${p.image?`<img src="${p.image}" alt="${safe(p.name)}" style="max-width:100%;max-height:300px;display:block;margin:auto">`:''}
- <h2>${safe(p.name)}</h2>
- <p>${safe(p.category||'')}</p>
- <p>${safe(p.description||'')}</p>
- <p class="price">${toman(price(p))}</p>
- <p>موجودی: ${p.stock}</p>
- <button data-do="add" data-id="${id}">افزودن به سبد</button>
- <button data-do="fav" data-id="${id}">افزودن به علاقه‌مندی</button>
- </div>`;
-
- show('details');
+ const p=products.find(x=>String(x.id)===String(id));if(!p)return;
+ alert(p.name+"\n\n"+(p.desc||"توضیحی ثبت نشده.")+"\nقیمت: "+money(finalPrice(p))+"\nموجودی: "+p.stock);
+}
+function trackOrder(){
+ const code=$("trackCode").value.trim().toUpperCase(),o=orders.find(x=>String(x.id).toUpperCase()===code);
+ $("trackResult").innerHTML=o?`<div class="card"><h3>${esc(o.id)}</h3><p>تاریخ: ${esc(o.date)}</p><p>مشتری: ${esc(o.name)}</p><p>وضعیت: <span class="badge">${esc(o.status)}</span></p><p>مبلغ: ${money(o.total)}</p><p>آدرس: ${esc(o.address)}</p><hr>${o.items.map(i=>`<p>${esc(i.name)} × ${i.qty} — ${money(i.total)}</p>`).join("")}</div>`:'<p style="color:red">سفارش پیدا نشد.</p>';
 }
 
-$('orderBtn').addEventListener('click',()=>{
- if(!cart.length){
-  alert('سبد خرید خالی است');
-  return;
- }
-
- let name=$('customer').value.trim();
- let phone=$('phone').value.trim();
- let address=$('address').value.trim();
-
- if(!name||!phone||!address){
-  alert('نام، شماره تماس و آدرس را وارد کنید');
-  return;
- }
-
- for(let i of cart){
-  let p=products.find(x=>x.id===i.id);
-  if(!p||p.stock<i.qty){
-   alert('موجودی یکی از محصولات کافی نیست');
-   return;
-  }
- }
-
- let items=cart.map(i=>{
-  let p=products.find(x=>x.id===i.id);
-  return{name:p.name,unit:price(p),qty:i.qty};
- });
-
- let total=items.reduce((s,i)=>s+i.unit*i.qty,0);
- let id='GT-'+Date.now().toString().slice(-8);
-
- let o={
-  id,name,phone,address,items,total,
-  status:'در انتظار ارسال',
-  date:new Date().toLocaleString('fa-IR'),
-  timestamp:Date.now()
- };
-
- orders.push(o);
-
- cart.forEach(i=>{
-  let p=products.find(x=>x.id===i.id);
-  if(p)p.stock-=i.qty;
- });
-
- cart=[];
- saveAll();
-
- $('customer').value='';
- $('phone').value='';
- $('address').value='';
-
- invoice(id);
-});
-
-function invoice(id){
- let o=orders.find(x=>x.id===id);
- if(!o)return;
-
- $('invoiceBox').innerHTML=`
- <div class="card">
- <h3>بازرگانی غلامی | GHOLAMI TRADE</h3>
- <p>شماره سفارش: <b>${safe(o.id)}</b></p>
- <p>تاریخ: ${safe(o.date)}</p>
- <p>نام خریدار: ${safe(o.name)}</p>
- <p>تماس: ${safe(o.phone)}</p>
- <p>آدرس: ${safe(o.address)}</p>
- <hr>
- ${o.items.map(i=>`
- <p>${safe(i.name)} | ${i.qty} × ${toman(i.unit)} = ${toman(i.qty*i.unit)}</p>
- `).join('')}
- <h3>مبلغ نهایی: ${toman(o.total)}</h3>
- <p>وضعیت: ${safe(o.status)}</p>
- </div>`;
-
- show('invoice');
+function loginAdmin(){
+ if($("adminPass").value==="2468"){
+  admin=true;$("adminLogin").style.display="none";$("adminPanel").style.display="block";renderAdmin();toast("ورود موفق");
+ }else alert("رمز اشتباه است.");
+}
+function logoutAdmin(){admin=false;$("adminLogin").style.display="block";$("adminPanel").style.display="none";go("shop")}
+function renderAdmin(){
+ if(!admin)return;
+ $("adminProducts").innerHTML=products.map(p=>`<tr><td>${esc(p.name)}</td><td>${money(p.price)}</td><td>${p.stock}</td><td><button class="btn secondary small" onclick="editProduct('${p.id}')">ویرایش</button> <button class="btn danger small" onclick="deleteProduct('${p.id}')">حذف</button></td></tr>`).join("");
+ $("adminOrders").innerHTML=orders.map(o=>`<tr><td>${esc(o.id)}</td><td>${esc(o.name)}</td><td>${money(o.total)}</td><td><select onchange="changeStatus('${o.id}',this.value)">${["ثبت شده","در حال آماده‌سازی","ارسال شده","تحویل شده","لغو شده"].map(s=>`<option ${o.status===s?"selected":""}>${s}</option>`).join("")}</select></td><td><button class="btn secondary small" onclick="printOrder('${o.id}')">فاکتور</button> <button class="btn danger small" onclick="deleteOrder('${o.id}')">حذف</button></td></tr>`).join("");
+ $("shipping").value=settings.shipping||0;
+ $("couponCode").value=settings.coupon||"";
+ $("couponDiscount").value=settings.discount||0;
 }
 
-$('trackBtn').addEventListener('click',()=>{
- let id=$('trackCode').value.trim();
- let o=orders.find(x=>x.id===id);
-
- $('trackResult').innerHTML=o
- ?`<div class="card">
- <p>سفارش: <b>${safe(o.id)}</b></p>
- <p>خریدار: ${safe(o.name)}</p>
- <p>وضعیت: <span class="status">${safe(o.status)}</span></p>
- <p>مبلغ: ${toman(o.total)}</p>
- </div>`
- :'<p class="card">سفارشی با این کد پیدا نشد.</p>';
-});
-
-$('login').addEventListener('click',()=>{
- if($('password').value==='2468'){
-  admin=true;
-  $('loginBox').classList.add('hidden');
-  $('panel').classList.remove('hidden');
-  drawAdmin();
- }else{
-  alert('رمز نادرست است');
- }
-});
-
-$('logout').addEventListener('click',()=>{
- admin=false;
- $('panel').classList.add('hidden');
- $('loginBox').classList.remove('hidden');
- $('password').value='';
- show('shop');
-});
-
-$('photo').addEventListener('change',()=>{
- let f=$('photo').files[0];
- chosenImage=null;
-
- if(!f){
-  $('previewWrap').classList.add('hidden');
-  return;
- }
-
- if(!f.type.startsWith('image/')){
-  alert('لطفاً تصویر انتخاب کنید');
-  $('photo').value='';
-  return;
- }
-
- if(f.size>8*1024*1024){
-  alert('حجم عکس باید کمتر از ۸ مگابایت باشد');
-  $('photo').value='';
-  return;
- }
-
- let r=new FileReader();
-
- r.onload=()=>{
-  $('preview').src=r.result;
-  $('previewWrap').classList.remove('hidden');
- };
-
- r.readAsDataURL(f);
-});
-
-$('clearPhoto').addEventListener('click',()=>{
- $('photo').value='';
- chosenImage=null;
- $('preview').removeAttribute('src');
- $('previewWrap').classList.add('hidden');
-});
-
-function compressImage(file,cb){
- let r=new FileReader();
-
- r.onerror=()=>cb(null);
-
- r.onload=()=>{
-  let im=new Image();
-
-  im.onerror=()=>cb(null);
-
-  im.onload=()=>{
-   let max=900;
-   let scale=Math.min(1,max/Math.max(im.width,im.height));
-   let w=Math.max(1,Math.round(im.width*scale));
-   let h=Math.max(1,Math.round(im.height*scale));
-   let c=document.createElement('canvas');
-
-   c.width=w;
-   c.height=h;
-   c.getContext('2d').drawImage(im,0,0,w,h);
-
-   let out=c.toDataURL('image/jpeg',.78);
-   if(out.length>1200000)out=c.toDataURL('image/jpeg',.58);
-
-   cb(out);
-  };
-
-  im.src=r.result;
- };
-
- r.readAsDataURL(file);
+function changeStatus(id,s){
+ const o=orders.find(x=>String(x.id)===String(id));
+ if(o){o.status=s;persist();toast("وضعیت ذخیره شد.")}
+}
+function deleteOrder(id){
+ if(!confirm("سفارش حذف شود؟"))return;
+ orders=orders.filter(o=>String(o.id)!==String(id));
+ persist();renderAdmin();
+}
+function deleteProduct(id){
+ if(!confirm("محصول حذف شود؟"))return;
+ products=products.filter(p=>String(p.id)!==String(id));
+ persist();renderAdmin();renderProducts();
 }
 
-function resetForm(){
- ['editId','name','price','stock','cat','desc'].forEach(x=>$(x).value='');
- $('discount').value='0';
- $('photo').value='';
- $('preview').removeAttribute('src');
- $('previewWrap').classList.add('hidden');
- chosenImage=null;
+function clearProductForm(){
+ ["editId","pName","pPrice","pDiscount","pCategory","pDesc"].forEach(id=>$(id).value="");
+ $("pStock").value=1;$("pDiscount").value=0;$("pImage").value="";
+ uploadedImage="";$("preview").style.display="none";
 }
-
-$('cancelEdit').addEventListener('click',resetForm);
-
-$('saveProduct').addEventListener('click',()=>{
- let id=$('editId').value;
- let name=$('name').value.trim();
- let priceVal=Number($('price').value);
- let discount=Number($('discount').value)||0;
- let stock=Number($('stock').value);
- let category=$('cat').value.trim();
- let description=$('desc').value.trim();
- let file=$('photo').files[0];
- let old=products.find(x=>x.id===id);
-
- if(!name||!Number.isFinite(priceVal)||priceVal<0||!Number.isFinite(stock)||stock<0){
-  alert('نام، قیمت و موجودی را درست وارد کنید');
-  return;
- }
-
- if(discount<0||discount>99){
-  alert('تخفیف باید بین صفر تا ۹۹ باشد');
-  return;
- }
-
- function finish(img){
-  let obj={
-   id:id||String(Date.now()),
-   name,price:priceVal,discount,stock,category,description,
-   image:img||old?.image||''
-  };
-
-  if(old){
-   products=products.map(p=>p.id===id?obj:p);
-  }else{
-   products.push(obj);
-  }
-
-  saveAll();
-  resetForm();
-  drawAdmin();
-  drawProducts();
-  alert('محصول ذخیره شد');
- }
-
- if(file){
-  compressImage(file,img=>{
-   if(!img){
-    alert('پردازش تصویر ناموفق بود');
-    return;
-   }
-   finish(img);
-  });
- }else{
-  finish(old?.image||'');
- }
-});
-
 function editProduct(id){
- let p=products.find(x=>x.id===id);
- if(!p)return;
-
- $('editId').value=p.id;
- $('name').value=p.name;
- $('price').value=p.price;
- $('discount').value=p.discount||0;
- $('stock').value=p.stock;
- $('cat').value=p.category||'';
- $('desc').value=p.description||'';
-
- if(p.image){
-  $('preview').src=p.image;
-  $('previewWrap').classList.remove('hidden');
- }
-
- show('admin');
+ const p=products.find(x=>String(x.id)===String(id));if(!p)return;
+ $("editId").value=p.id;$("pName").value=p.name;$("pPrice").value=p.price;$("pDiscount").value=p.discount||0;
+ $("pStock").value=p.stock;$("pCategory").value=p.category;$("pDesc").value=p.desc||"";
+ uploadedImage=p.image||"";
+ if(uploadedImage){$("preview").src=uploadedImage;$("preview").style.display="block"}
  window.scrollTo(0,0);
 }
 
-function deleteProduct(id){
- if(!confirm('محصول حذف شود؟'))return;
-
- products=products.filter(p=>p.id!==id);
- cart=cart.filter(x=>x.id!==id);
- favorites=favorites.filter(x=>x!==id);
-
- saveAll();
- drawAdmin();
- drawProducts();
+function previewImage(input){
+ const file=input.files[0];if(!file)return;
+ if(!file.type.startsWith("image/"))return alert("لطفاً تصویر انتخاب کنید.");
+ const reader=new FileReader();
+ reader.onload=()=>{
+  const img=new Image();
+  img.onload=()=>{
+   const canvas=document.createElement("canvas");let w=img.width,h=img.height,max=850;
+   if(w>max||h>max){const r=Math.min(max/w,max/h);w=Math.round(w*r);h=Math.round(h*r)}
+   canvas.width=w;canvas.height=h;
+   canvas.getContext("2d").drawImage(img,0,0,w,h);
+   uploadedImage=canvas.toDataURL("image/jpeg",.72);
+   $("preview").src=uploadedImage;$("preview").style.display="block";
+  };
+  img.src=reader.result;
+ };
+ reader.readAsDataURL(file);
+}
+function saveProduct(){
+ const name=$("pName").value.trim(),price=Number($("pPrice").value),stock=Number($("pStock").value),discount=Number($("pDiscount").value||0);
+ if(!name||!Number.isFinite(price)||price<=0)return alert("نام و قیمت معتبر وارد کنید.");
+ if(stock<0||discount<0||discount>99)return alert("موجودی یا تخفیف نامعتبر است.");
+ const id=$("editId").value,old=products.find(x=>String(x.id)===String(id));
+ const p={id:id||Date.now(),name,price,stock,discount,category:$("pCategory").value.trim()||"عمومی",desc:$("pDesc").value.trim(),image:uploadedImage||(old?old.image:""),sold:old?old.sold||0:0};
+ if(old)products=products.map(x=>String(x.id)===String(id)?p:x);
+ else products.unshift(p);
+ persist();clearProductForm();renderAdmin();renderProducts();toast("محصول ذخیره شد.");
 }
 
-function drawAdmin(){
- $('manageProducts').innerHTML=products.map(p=>`
- <div class="card">
- <b>${safe(p.name)}</b>
- <p>${toman(price(p))} | موجودی ${p.stock}</p>
- <button data-do="edit" data-id="${p.id}">ویرایش</button>
- <button class="danger" data-do="delete" data-id="${p.id}">حذف</button>
- </div>
- `).join('')||'محصولی ثبت نشده';
-
- $('manageOrders').innerHTML=orders.slice().reverse().map(o=>`
- <div class="card">
- <b>${safe(o.id)}</b>
- <p>${safe(o.name)} | ${toman(o.total)}</p>
- <p>وضعیت: ${safe(o.status)}</p>
- <button data-do="invoice" data-id="${o.id}">فاکتور</button>
- <button data-do="status" data-status="در حال آماده‌سازی" data-id="${o.id}">آماده‌سازی</button>
- <button data-do="status" data-status="ارسال شده" data-id="${o.id}">ارسال شد</button>
- <button data-do="status" data-status="تحویل شده" data-id="${o.id}">تحویل شد</button>
- <button class="danger" data-do="orderdel" data-id="${o.id}">حذف</button>
- </div>
- `).join('')||'سفارشی ثبت نشده';
+function saveSettings(){
+ settings={...settings,shipping:Math.max(0,Number($("shipping").value||0)),coupon:$("couponCode").value.trim().toUpperCase(),discount:Math.min(100,Math.max(0,Number($("couponDiscount").value||0)))};
+ persist();toast("تنظیمات ذخیره شد.");
 }
 
-function changeStatus(id,status){
- let o=orders.find(x=>x.id===id);
- if(o){
-  o.status=status;
-  saveAll();
-  drawAdmin();
- }
+function printOrder(id){
+ const o=orders.find(x=>String(x.id)===String(id));if(!o)return;
+ const w=window.open("","_blank");if(!w)return alert("اجازه پنجره فاکتور را بدهید.");
+ w.document.write(`<html lang="fa" dir="rtl"><meta charset="UTF-8"><title>فاکتور</title><body style="font-family:Tahoma;padding:20px"><h2>بازرگانی غلامی — GHOLAMICO.IR</h2><h3>فاکتور ${esc(o.id)}</h3><p>${esc(o.date)}</p><p>مشتری: ${esc(o.name)} | ${esc(o.phone)}</p><p>آدرس: ${esc(o.address)}</p><table border="1" cellpadding="8" width="100%"><tr><th>محصول</th><th>تعداد</th><th>قیمت</th><th>جمع</th></tr>${o.items.map(i=>`<tr><td>${esc(i.name)}</td><td>${i.qty}</td><td>${money(i.price)}</td><td>${money(i.total)}</td></tr>`).join("")}</table><p>جمع کالا: ${money(o.subtotal)}</p><p>تخفیف: ${money(o.discount)}</p><p>ارسال: ${money(o.shipping)}</p><h3>مبلغ نهایی: ${money(o.total)}</h3><script>window.onload=()=>window.print()<\/script></body></html>`);
+ w.document.close();
 }
 
-function deleteOrder(id){
- if(!confirm('سفارش حذف شود؟'))return;
- orders=orders.filter(x=>x.id!==id);
- saveAll();
- drawAdmin();
+function exportData(){
+ const blob=new Blob([JSON.stringify({products,cart,orders,favorites,settings},null,2)],{type:"application/json"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="gholamico-backup.json";a.click();
 }
-
-$('export').addEventListener('click',()=>{
- let data={products,cart,orders,favorites};
- let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
- let url=URL.createObjectURL(blob);
- let a=document.createElement('a');
- a.href=url;
- a.download='gholami-trade-backup.json';
- a.click();
- URL.revokeObjectURL(url);
-});
-
-$('import').addEventListener('click',()=>{
- let f=$('backupFile').files[0];
-
- if(!f){
-  alert('فایل پشتیبان را انتخاب کنید');
-  return;
- }
-
- let r=new FileReader();
-
+function importData(){
+ const file=$("importFile").files[0];if(!file)return alert("فایل پشتیبان انتخاب کنید.");
+ const r=new FileReader();
  r.onload=()=>{
   try{
-   let d=JSON.parse(r.result);
-
-   if(Array.isArray(d.products))products=d.products;
-   if(Array.isArray(d.cart))cart=d.cart;
-   if(Array.isArray(d.orders))orders=d.orders;
-   if(Array.isArray(d.favorites))favorites=d.favorites;
-
-   saveAll();
-   drawAdmin();
-   drawProducts();
-   alert('پشتیبان بازیابی شد');
-  }catch{
-   alert('فایل پشتیبان معتبر نیست');
-  }
+   const d=JSON.parse(r.result);
+   if(!Array.isArray(d.products)||!Array.isArray(d.orders))throw 0;
+   if(!confirm("اطلاعات فعلی جایگزین شود؟"))return;
+   products=d.products;cart=d.cart||[];orders=d.orders||[];favorites=d.favorites||[];settings=d.settings||settings;
+   persist();render();renderAdmin();showStoreLogo();alert("بازیابی انجام شد.");
+  }catch(e){alert("فایل پشتیبان معتبر نیست.")}
  };
+ r.readAsText(file);
+}
 
- r.readAsText(f);
-});
+function openChat(){$("chatPanel").classList.add("open")}
+function closeChat(){$("chatPanel").classList.remove("open")}
+function sendChat(){
+ const name=$("chatName").value.trim(),msg=$("chatMessage").value.trim();
+ if(!name||!msg)return alert("نام و پیام را بنویسید.");
+ const text=`سلام، من ${name} هستم.\n${msg}\nاز سایت GHOLAMICO.IR`;
+ window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(text),"_blank");
+ closeChat();
+}
 
-drawProducts();
-drawCart();
-
+function render(){renderProducts();renderFavorites();updateCount()}
+showStoreLogo();
+render();
 </script>
 </body>
 </html>
